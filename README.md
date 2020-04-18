@@ -3,7 +3,7 @@
 # PlanetArchive Core Services
 
 ## Build requirements
- - Java 8 (any OpenJDK-compliant distibution)
+ - Java 8 (any OpenJDK-compliant distribution)
  - [Apache Maven 3](http://maven.apache.org)
  - [Docker](https://www.docker.com/) (uses [OpenContainers](https://www.opencontainers.org/))
  
