@@ -1,0 +1,20 @@
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac OS
+.DS_Store
+
+# Maven
+log/
+target/
+
+log.txt
+
+docmanagement/src/main/java/ru/doccloud/document/jooq/
