@@ -882,7 +882,7 @@ public class FileBridgeRepository extends AbstractFileBridgeRepository {
         // prepare result
 
         result.setObjects(new ArrayList<>());
-        result.setHasMoreItems(docList.hasNextPage());
+        result.setHasMoreItems(docList.hasNext());
         int count = 0;
 
         LOGGER.debug("getChildren(): adding children to result...");
@@ -1182,7 +1182,7 @@ public class FileBridgeRepository extends AbstractFileBridgeRepository {
 	        // prepare result
 	
 	        res.setObjects(new ArrayList<>());
-	        res.setHasMoreItems(docList.hasNextPage());
+	        res.setHasMoreItems(docList.hasNext());
 	        int count = 0;
 	
 	        LOGGER.debug("query(): adding children to result...");

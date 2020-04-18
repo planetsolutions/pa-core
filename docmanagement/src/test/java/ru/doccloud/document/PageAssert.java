@@ -97,7 +97,7 @@ public class PageAssert extends AbstractAssert<PageAssert, Page> {
     public PageAssert isFirstPage() {
         isNotNull();
 
-        assertThat(actual.isFirstPage())
+        assertThat(actual.isFirst())
                 .overridingErrorMessage("Expected the page to be the first page but it was not")
                 .isTrue();
 
@@ -107,11 +107,11 @@ public class PageAssert extends AbstractAssert<PageAssert, Page> {
     public PageAssert isLastPage() {
         isNotNull();
 
-        assertThat(actual.isLastPage())
+        assertThat(actual.isLast())
                 .overridingErrorMessage("Expected the page to be the last page but it was not")
                 .isTrue();
 
-        assertThat(actual.hasNextPage())
+        assertThat(actual.hasNext())
                 .overridingErrorMessage("Expected page to not have a next page but it has next page")
                 .isFalse();
 
@@ -121,7 +121,7 @@ public class PageAssert extends AbstractAssert<PageAssert, Page> {
     public PageAssert isNotFirstPage() {
         isNotNull();
 
-        assertThat(actual.isFirstPage())
+        assertThat(actual.isFirst())
                 .overridingErrorMessage("Expected the page to not be the first page but it was")
                 .isFalse();
 
@@ -131,11 +131,11 @@ public class PageAssert extends AbstractAssert<PageAssert, Page> {
     public PageAssert isNotLastPage() {
         isNotNull();
 
-        assertThat(actual.isLastPage())
+        assertThat(actual.isLast())
                 .overridingErrorMessage("Expected the page to not be the last page but it was")
                 .isFalse();
 
-        assertThat(actual.hasNextPage())
+        assertThat(actual.hasNext())
                 .overridingErrorMessage("Expected page to have a next page but it didn't have it")
                 .isTrue();
 
