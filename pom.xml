@@ -118,18 +118,14 @@
 
         <profile>
             <id>spring_boot_jar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <packaging.type>jar</packaging.type>
                 <skip.integration.tests>true</skip.integration.tests>
                 <skip.unit.tests>true</skip.unit.tests>
             </properties>
-            <!--<dependencies>-->
-            <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-            <!--&lt;!&ndash;<scope>provided</scope>&ndash;&gt;-->
-            <!--</dependency>-->
-            <!--</dependencies>-->
             <build>
                 <plugins>
                     <plugin>
@@ -177,7 +173,9 @@
         </profile>
         <profile>
             <id>dev</id>
-
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -226,7 +224,6 @@
                     <!--</plugin>-->
                 </plugins>
             </build>
-
             <properties>
                 <build.profile.id>dev</build.profile.id>
                 <packaging.type>jar</packaging.type>
@@ -1362,15 +1359,6 @@
             </dependency>
 
         </dependencies>
-
     </dependencyManagement>
-
-    <distributionManagement>
-      <repository>
-        <id>central</id>
-        <name>c9ff7b6ea6b7-releases</name>
-        <url>${env.MAVEN_REPO_URL}/libs-release-local</url>
-      </repository>
-    </distributionManagement>
 
 </project>
