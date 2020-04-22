@@ -1,0 +1,106 @@
+aspect:
+  audit:
+    enabled: false
+  timeprofiler:
+    enabled: false
+
+server:
+  port: 8888
+  contextPath: /jooq
+
+#security:
+#  basic:
+#    enabled: true
+
+spring:
+  jmx:
+    enabled: false
+#  datasource:
+#    jndi-name: jdbc/DOCCLOUDDB
+security:
+  basic:
+    enabled: true
+  loginconfig:
+    authMethod: "BASIC"
+    securityRole: "tomcat"
+    authRole: "tomcat"
+    pattern: "/*"
+  jwt:
+    accessTokenExpirationTime: 864_000_00
+    refreshTokenExpirationTime: 864_000_000
+    signingKey: 74a0d974-cde7-4c86-b97a-596f71bc4ea7
+#  openldap:
+#    ldaps:
+#      - userSearchBase:   "ou=people"
+#        userSearchFilter: "cn=({0})"
+#        groupSearchBase:  "ou=groups"
+#        url:              "ldap://localhost:1389/dc=planeta,dc=ru"
+#        managerDn: "cn=admin,dc=planeta,dc=ru"
+#        managerPassword: "admin"
+#        passwordAttribute: "userPassword"
+pa:
+  elasticsearch:
+    host: doccloud.ru
+    port: 9300
+    clusterName: elasticsearch
+    clientTransportSniff: true
+
+  hazelcast:
+    address: hazelcast
+    сonnectionAttemptLimit: 5
+    сonnectionAttemptPeriod: 10000
+    сonnectionTimeout: 5000
+
+  persistence:
+    realmds:
+      name: "jdbc/DOCCLOUDDB"
+      userTable: "users"
+      userNameCol: "userid"
+      userCredCol: "password"
+      userRoleTable: "user_roles"
+      roleNameCol:  "role"
+      allRolesMode: "authOnly"
+
+      driverName: "org.postgresql.Driver"
+      connectionURL:  "jdbc:postgresql://postgres:5432/doccloud"
+      connectionName: "doccloud"
+      connectionPassword: "doccloud"
+    datasources:
+      - name: "jdbc/DOCCLOUDDB"
+        factory: "org.apache.tomcat.jdbc.pool.DataSourceFactory"
+        driverClassName: "org.postgresql.Driver"
+        url: "jdbc:postgresql://postgres:5432/doccloud"
+        maxTotal: "100"
+        maxIdle: "20"
+        minIdle: "5"
+        maxWaitMillis: "10000"
+        username: "doccloud"
+        password: "doccloud"
+        testOnBorrow: "true"
+        testWhileIdle: "true"
+        testOnReturn: "true"
+        validationQuery: "SELECT 1"
+        removeAbandoned: "true"
+        removeAbandonedTimeout: "60"
+        defaultDS: "true"
+        authContainer: "Container"
+
+  export:
+    limit: 2000
+
+
+logging:
+  level:
+#    ru.doccloud.webapp.audit.aspect.AuthorizationPlugin: TRACE
+#    ru.doccloud.service.impl.RepositoryDocumentCrudService: DEBUG
+#    ru.doccloud.service.impl.SystemDocumentCrudService: DEBUG
+#    ru.doccloud.webapp.audit.aspect.UsersAndGroupsAudit: TRACE
+#    ru.doccloud.webapp.audit.aspect.DocumentAudit: TRACE
+#    ru.doccloud.webapp.audit.aspect.CommonDocAudit: TRACE
+#    ru.doccloud.webapp.audit.aspect.Audit: TRACE
+#    ru.doccloud.webapp.audit.aspect.CommonDocAudit: TRACE
+#    ru.doccloud.service.impl.AuditServiceImpl: TRACE
+#    ru.doccloud.cmis.server.repository.FileBridgeRepository: DEBUG
+#    ru.doccloud.document.controller.DocumentController: DEBUG
+#    ru.doccloud.repository.impl.JOOQDocumentRepository: TRACE
+
