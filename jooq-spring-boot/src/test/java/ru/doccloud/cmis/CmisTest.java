@@ -13,6 +13,34 @@ import java.util.Map;
 public abstract class CmisTest extends CommonTest {
     private static final String CMIS_JWT_AUTH_HEADER = "cmisJwtAuthorization";
 
+    final  String objectIdKey = "cmis:objectId";
+
+    final  String objectNameKey = "cmis:name";
+
+    final String descriptionKey = "cmis:description";
+
+    final String versionSeriesIdKey = "cmis:versionSeriesId";
+
+    final String parentKey = "cmis:parentId";
+
+    final String pathKey = "cmis:path";
+
+    final String objTypeKey = "cmis:objectTypeId";
+
+    final  String ROOT_ID = "00000000-0000-0000-0000-000000000000";
+
+    final String repositoryId = "test";
+
+    final String cmisBaseType = "cmis:baseTypeId";
+
+    final String cmisObjectTypeId = "cmis:objectTypeId";
+
+    final String cmisContentStreamId = "cmis:contentStreamId";
+
+    final String cmisContentStreamFileName= "cmis:contentStreamFileName";
+
+    final String cmisContentStreamFileLenght = "cmis:contentStreamLength";
+
     static CmisBinding provider;
     static final String REPOSITORY_NAME = "test";
 
