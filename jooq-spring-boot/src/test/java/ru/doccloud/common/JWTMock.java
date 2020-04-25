@@ -1,4 +1,4 @@
-package ru.doccloud.cmis.util;
+package ru.doccloud.common;
 
 import ru.doccloud.common.jwt.JwtTokenHelper;
 
@@ -28,6 +28,6 @@ public class JWTMock {
     }
 
 //    public static void main(String[] args) {
-//        System.out.println(ru.doccloud.cmis.util.JWTMock.getJWT("boot"));
+//        System.out.println(ru.doccloud.common.JWTMock.getJWT("boot"));
 //    }
 }
