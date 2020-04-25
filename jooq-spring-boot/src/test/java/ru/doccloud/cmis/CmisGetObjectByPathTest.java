@@ -26,12 +26,14 @@ public class CmisGetObjectByPathTest extends CmisTest {
 
     @Test
     public void getObjectByPath_thenObjectReturned(){
-        final String path = "";
+        final String path = "/Test Tenant2/New App/Documents/Test_1";
 
             ObjectData myObject = provider.getObjectService().getObjectByPath(REPOSITORY_NAME, path,
                     "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
         // TODO: 25.04.2020 add test criteria
         assertNotNull(myObject);
+        final String expectedObjId = "8c755855-5159-49cf-8ed8-84e1cb30d17f";
+        assertEquals(expectedObjId, myObject.getId());
     }
 
 
