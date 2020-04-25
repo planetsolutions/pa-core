@@ -1,3 +1,5 @@
+package ru.doccloud.cmis.util;
+
 import ru.doccloud.common.jwt.JwtTokenHelper;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class JWTMock {
         return accessToken;
     }
 
-    public static void main(String[] args) {
-        System.out.println(JWTMock.getJWT("boot"));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(ru.doccloud.cmis.util.JWTMock.getJWT("boot"));
+//    }
 }

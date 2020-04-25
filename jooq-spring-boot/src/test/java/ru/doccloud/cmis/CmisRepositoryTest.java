@@ -29,6 +29,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.Test;
+import ru.doccloud.cmis.util.JWTMock;
 
 import java.io.IOException;
 import java.net.URI;
@@ -41,29 +43,31 @@ public class CmisRepositoryTest {
     private final static String LOGIN_PATH = "jooq/login";
     private final static String HTTP_SCHEMA_URL = "http";
 
-    private final static String URL = "localhost";
+    private final static String URL = "doccloud.ru";
     private final static int PORT = 8888;
 
     private HttpClient httpClient;
 
-    private static final String PROP_CUSTOM = "org.apache.chemistry.opencmis.binding.header.";
+//    private static final String PROP_CUSTOM = "org.apache.chemistry.opencmis.binding.header.";
 
     @Before
     public void init(){
         httpClient = HttpClientBuilder.create().build();
     }
 
-//    @org.junit.Test
+    @Test
     public void authTest(){
 
-//        probably it needs to use 	addSessionParameterHeadersToFixedHeaders() or getHTTOHeaders method
+// TODO: 25.04.2020 use JWTMock.getJWT instead of getJWTToken after ading spring profile
         final String token = getJwtToken();
+//        final String token = JWTMock.getJWT("boot");
+
         if(!StringUtils.isBlank(token)) {
 
-            CmisBinding provider = getClientBindings("http://localhost:8888/jooq/browser", "boot", "boot", token);
+            CmisBinding provider = getClientBindings("http://doccloud.ru:8888/jooq/browser", "boot", "boot", token);
 
 
-            ObjectData myObject = provider.getObjectService().getObject("test", "00000000-0000-0000-0000-000000000000",
+            ObjectData myObject = provider.getObjectService().getObject("test", "0ff729c3-3b26-463f-8006-2fd79bdc124a",
                     "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
 
             System.out.println("my Object " + myObject);
@@ -88,7 +92,7 @@ public class CmisRepositoryTest {
     private static CmisBinding createBrowserBinding(String url, String user, String password, String token) {
 
         // gather parameters
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<>();
         fillLoginParams(parameters, user, password);
 //        fillCustomHeaders(parameters, token);
 
