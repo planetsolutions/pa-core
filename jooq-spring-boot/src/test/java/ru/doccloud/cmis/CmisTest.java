@@ -4,13 +4,24 @@ import org.apache.chemistry.opencmis.client.SessionParameterMap;
 import org.apache.chemistry.opencmis.client.bindings.CmisBindingFactory;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.spi.CmisBinding;
+import org.junit.BeforeClass;
 import ru.doccloud.common.CommonTest;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class CmisTest extends CommonTest {
-    CmisBinding getClientBindings(String url, String user, String pwd, String token) {
+    private static final String CMIS_JWT_AUTH_HEADER = "cmisJwtAuthorization";
+
+    static CmisBinding provider;
+    static final String REPOSITORY_NAME = "test";
+
+    @BeforeClass
+    public static void initBinding(){
+         provider = getClientBindings("http://doccloud.ru:8888/jooq/browser", DEFAULT_USER, DEFAULT_PASS, jwtToken);
+    }
+
+    static CmisBinding getClientBindings(String url, String user, String pwd, String token) {
         return createBrowserBinding(url, user, pwd, token);
     }
 
@@ -28,7 +39,6 @@ public abstract class CmisTest extends CommonTest {
         // gather parameters
         Map<String, String> parameters = new HashMap<>();
         fillLoginParams(parameters, user, password);
-//        fillCustomHeaders(parameters, token);
 
         // get factory and create binding
         CmisBindingFactory factory = CmisBindingFactory.newInstance();
@@ -39,7 +49,7 @@ public abstract class CmisTest extends CommonTest {
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             parameter.put(entry.getKey(), entry.getValue());
         }
-        parameter.addHeader("cmisJwtAuthorization", token);
+        parameter.addHeader(CMIS_JWT_AUTH_HEADER, token);
         return factory.createCmisBrowserBinding(parameter);
     }
 }

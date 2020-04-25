@@ -17,8 +17,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import org.junit.BeforeClass;
 
 import java.io.IOException;
 import java.net.URI;
@@ -34,12 +36,19 @@ public abstract class CommonTest {
     public static HttpClient httpClient;
     public static String jwtToken;
 
-    private final static String SERVER_URL = "http://localhost:8888/jooq/api/docs";
-    private static final String DEFAULT_USER = "boot";
-    private static final String DEFAULT_PASS = "boot";
+    public final static String SERVER_URL = "http://doccloud.ru:8888/jooq/api/docs";
+    public static final String DEFAULT_USER = "boot";
+    public static final String DEFAULT_PASS = "boot";
 
+    @BeforeClass
+    public static void init(){
+        httpClient = HttpClientBuilder.create().build();
+        jwtToken = getJwtToken();
+    }
+
+    // TODO: 25.04.2020 use JWTMock.getJWT instead of getJWTToken after ading spring profile
     public static String getJwtToken(){
-        HttpResponse response = null;
+        HttpResponse response;
         try {
             URIBuilder uriBuilder = new URIBuilder();
             uriBuilder.setScheme(HTTP_SCHEMA_URL).setHost(URL).setPort(PORT).setPath(LOGIN_PATH);
@@ -61,12 +70,7 @@ public abstract class CommonTest {
 
                 JSONObject jObject = new JSONObject(content);
 
-                String accessToken = jObject.getString("access_token");
-
-                System.out.println("JWT accessToken: " + accessToken);
-
-
-                return accessToken;
+                return jObject.getString("access_token");
             }
 
         } catch (IOException | URISyntaxException e) {
