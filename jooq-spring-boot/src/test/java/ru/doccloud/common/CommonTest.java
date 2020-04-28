@@ -20,64 +20,98 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-public abstract class CommonTest {
+public abstract class CommonTest extends DockerComposeTest {
+
+    @LocalServerPort
+    public  int port;
+
     public final static String LOGIN_PATH = "jooq/login";
     public final static String HTTP_SCHEMA_URL = "http";
 
     public final static String URL = "doccloud.ru";
     public final static int PORT = 8888;
 
-    public static HttpClient httpClient;
-    public static String jwtToken;
+    public  HttpClient httpClient;
+    public  String jwtToken;
 
     public final static String SERVER_URL = "http://doccloud.ru:8888/jooq/api/docs";
     public static final String DEFAULT_USER = "boot";
     public static final String DEFAULT_PASS = "boot";
 
-    @BeforeClass
-    public static void init(){
+    @Autowired
+    public DataSource dataSource;
+
+
+    public Connection connection;
+
+    @Before
+    public void init() throws SQLException {
+//        System.out.println("datasource " + dataSource);
         httpClient = HttpClientBuilder.create().build();
-        jwtToken = getJwtToken();
+        jwtToken = JWTMock.getJWT(DEFAULT_USER);
+        Connection connection = dataSource.getConnection();
+        System.out.println(port);
+//        ScriptUtils.executeSqlScript(connection, new ClassPathResource("clean_test_data.sql"));
+//        ScriptUtils.executeSqlScript(connection, new ClassPathResource("test_data_find.sql"));
     }
+
+
+//    private static PostgreSQLContainer sqlContainer;
+
+//    @BeforeClass
+//    @Before
+//    public  void init(){
+//        httpClient = HttpClientBuilder.create().build();
+//        jwtToken = JWTMock.getJWT(DEFAULT_USER);
+////        jwtToken = getJwtToken();
+//    }
 
     // TODO: 25.04.2020 use JWTMock.getJWT instead of getJWTToken after ading spring profile
-    public static String getJwtToken(){
-        HttpResponse response;
-        try {
-            URIBuilder uriBuilder = new URIBuilder();
-            uriBuilder.setScheme(HTTP_SCHEMA_URL).setHost(URL).setPort(PORT).setPath(LOGIN_PATH);
-            uriBuilder.addParameter("username", "boot").addParameter("password", "boot");
-            URI uri = uriBuilder.build();
-            HttpPost httpPost = new HttpPost(uri );
-
-            httpPost.setEntity(new StringEntity(
-                    prepareLoginInfoAsJSON(),
-                    ContentType.create("application/json")));
-            response = httpClient.execute(httpPost, getHttpClientContext());
-            int statusLoginCode = response.getStatusLine().getStatusCode();
-
-            if(statusLoginCode == HttpStatus.SC_OK) {
-
-                HttpEntity entity = response.getEntity();
-
-                String content = EntityUtils.toString(entity);
-
-                JSONObject jObject = new JSONObject(content);
-
-                return jObject.getString("access_token");
-            }
-
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    public static String getJwtToken(){
+//        HttpResponse response;
+//        try {
+//            URIBuilder uriBuilder = new URIBuilder();
+//            uriBuilder.setScheme(HTTP_SCHEMA_URL).setHost(URL).setPort(PORT).setPath(LOGIN_PATH);
+//            uriBuilder.addParameter("username", "boot").addParameter("password", "boot");
+//            URI uri = uriBuilder.build();
+//            HttpPost httpPost = new HttpPost(uri );
+//
+//            httpPost.setEntity(new StringEntity(
+//                    prepareLoginInfoAsJSON(),
+//                    ContentType.create("application/json")));
+//            response = httpClient.execute(httpPost, getHttpClientContext());
+//            int statusLoginCode = response.getStatusLine().getStatusCode();
+//
+//            if(statusLoginCode == HttpStatus.SC_OK) {
+//
+//                HttpEntity entity = response.getEntity();
+//
+//                String content = EntityUtils.toString(entity);
+//
+//                JSONObject jObject = new JSONObject(content);
+//
+//                return jObject.getString("access_token");
+//            }
+//
+//        } catch (IOException | URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     public static HttpClientContext getHttpClientContext(){
         HttpHost targetHost = new HttpHost(SERVER_URL);

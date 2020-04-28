@@ -4,9 +4,11 @@ import org.apache.chemistry.opencmis.client.SessionParameterMap;
 import org.apache.chemistry.opencmis.client.bindings.CmisBindingFactory;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.spi.CmisBinding;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import ru.doccloud.common.CommonTest;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,9 +46,16 @@ public abstract class CmisTest extends CommonTest {
     static CmisBinding provider;
     static final String REPOSITORY_NAME = "test";
 
-    @BeforeClass
-    public static void initBinding(){
-         provider = getClientBindings("http://doccloud.ru:8888/jooq/browser", DEFAULT_USER, DEFAULT_PASS, jwtToken);
+//    @Before
+//    public void setUp(){
+//        provider = getClientBindings(createURLWithPort("/jooq/browser", port), DEFAULT_USER, DEFAULT_PASS, jwtToken);
+//    }
+
+//    @BeforeClass
+    @Before
+    public void init() throws SQLException {
+        super.init();
+         provider = getClientBindings(createURLWithPort("/jooq/browser", port), DEFAULT_USER, DEFAULT_PASS, jwtToken);
     }
 
     static CmisBinding getClientBindings(String url, String user, String pwd, String token) {
@@ -79,5 +88,9 @@ public abstract class CmisTest extends CommonTest {
         }
         parameter.addHeader(CMIS_JWT_AUTH_HEADER, token);
         return factory.createCmisBrowserBinding(parameter);
+    }
+
+    private static String createURLWithPort(String uri, int port) {
+        return "http://localhost:" + port + uri;
     }
 }

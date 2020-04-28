@@ -1,55 +1,13 @@
-aspect:
-  audit:
-    enabled: false
-  timeprofiler:
-    enabled: false
-
 server:
-  port: 8888
+  port: 9999
   contextPath: /jooq
 
-#security:
-#  basic:
-#    enabled: true
-
-spring:
-  jmx:
-    enabled: false
-#  datasource:
-#    jndi-name: jdbc/DOCCLOUDDB
-security:
-  basic:
-    enabled: true
-  loginconfig:
-    authMethod: "BASIC"
-    securityRole: "tomcat"
-    authRole: "tomcat"
-    pattern: "/*"
-  jwt:
-    accessTokenExpirationTime: 864_000_00
-    refreshTokenExpirationTime: 864_000_000
-    signingKey: 74a0d974-cde7-4c86-b97a-596f71bc4ea7
-#  openldap:
-#    ldaps:
-#      - userSearchBase:   "ou=people"
-#        userSearchFilter: "cn=({0})"
-#        groupSearchBase:  "ou=groups"
-#        url:              "ldap://localhost:1389/dc=planeta,dc=ru"
-#        managerDn: "cn=admin,dc=planeta,dc=ru"
-#        managerPassword: "admin"
-#        passwordAttribute: "userPassword"
 pa:
-  elasticsearch:
-    host: doccloud.ru
-    port: 9300
-    clusterName: elasticsearch
-    clientTransportSniff: true
-
   hazelcast:
-    address: hazelcast
-    сonnectionAttemptLimit: 5
-    сonnectionAttemptPeriod: 10000
-    сonnectionTimeout: 5000
+    address: hazelcast-test
+    connLimit: 5
+    connPeriod: 10000
+    timeout: 5000
 
   persistence:
     realmds:
@@ -62,20 +20,20 @@ pa:
       allRolesMode: "authOnly"
 
       driverName: "org.postgresql.Driver"
-      connectionURL:  "jdbc:postgresql://postgres:5432/doccloud"
-      connectionName: "doccloud"
-      connectionPassword: "doccloud"
+      connectionURL:  "jdbc:postgresql://docclouddb-test:5432/doccloud_it"
+      connectionName: "doccloud_it"
+      connectionPassword: "doccloud_it"
     datasources:
       - name: "jdbc/DOCCLOUDDB"
         factory: "org.apache.tomcat.jdbc.pool.DataSourceFactory"
         driverClassName: "org.postgresql.Driver"
-        url: "jdbc:postgresql://postgres:5432/doccloud"
+        url: "jdbc:postgresql://docclouddb-test:5432/doccloud_it"
         maxTotal: "100"
         maxIdle: "20"
         minIdle: "5"
         maxWaitMillis: "10000"
-        username: "doccloud"
-        password: "doccloud"
+        username: "doccloud_it"
+        password: "doccloud_it"
         testOnBorrow: "true"
         testWhileIdle: "true"
         testOnReturn: "true"
@@ -85,22 +43,17 @@ pa:
         defaultDS: "true"
         authContainer: "Container"
 
-  export:
-    limit: 2000
-
-
 logging:
   level:
-#    ru.doccloud.webapp.audit.aspect.AuthorizationPlugin: TRACE
-#    ru.doccloud.service.impl.RepositoryDocumentCrudService: DEBUG
-#    ru.doccloud.service.impl.SystemDocumentCrudService: DEBUG
-#    ru.doccloud.webapp.audit.aspect.UsersAndGroupsAudit: TRACE
-#    ru.doccloud.webapp.audit.aspect.DocumentAudit: TRACE
-#    ru.doccloud.webapp.audit.aspect.CommonDocAudit: TRACE
-#    ru.doccloud.webapp.audit.aspect.Audit: TRACE
-#    ru.doccloud.webapp.audit.aspect.CommonDocAudit: TRACE
-#    ru.doccloud.service.impl.AuditServiceImpl: TRACE
-#    ru.doccloud.cmis.server.repository.FileBridgeRepository: DEBUG
-#    ru.doccloud.document.controller.DocumentController: DEBUG
+    root: WARN
+    #    ru.doccloud.webapp.*: TRACE
+    #    ru.doccloud.service.impl.*: TRACE
+    #    org.springframework.cache.*: TRACE
+    #    com.hazelcast.core.*: TRACE
+    #    ru.doccloud.webapp.config.CachingConfig: TRACE
+    #    com.hazelcast.nio.serialization.*: TRACE
+#    ru.doccloud.service.impl.*: DEBUG
+#    ru.doccloud.google.*: TRACE
+#    ru.doccloud.storagemanager.*: TRACE
 #    ru.doccloud.repository.impl.JOOQDocumentRepository: TRACE
 

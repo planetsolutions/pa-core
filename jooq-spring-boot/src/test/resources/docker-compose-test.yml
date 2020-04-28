@@ -1,0 +1,96 @@
+version: '3.6'
+services:
+    hazelcast-test:
+#        container_name: hazelcast-test
+        image: hazelcast/hazelcast:latest
+        ports:
+            - 5701:5701
+        networks:
+            - nw_doccloud_test
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+#    scality-test:
+#        container_name: scality-test
+#        image: scality/s3server:latest
+#        networks:
+#        - nw_doccloud_test
+#        ports:
+#        - "8001:8000"
+
+#        volumes:
+#        - /etc/localtime:/etc/localtime:ro
+#        - /opt/doccloud/docker/stack/scality/localMetadata:/usr/src/app/localMetadata
+#        - /opt/doccloud/docker/stack/scality/localData:/usr/src/app/localData
+#    hazelcast-man-test:
+##        container_name: hazelcast-man-test
+#        image: hazelcast/management-center:latest
+#        ports:
+#            - 8088:8080
+#        networks:
+#            - nw_doccloud_test
+#        volumes:
+#            - /etc/localtime:/etc/localtime:ro
+    #
+#    elasticsearch-test:
+#        image: docker.elastic.co/elasticsearch/elasticsearch:6.7.1
+#        container_name: elasticsearch-test
+#        environment:
+#        - cluster.name=elasticsearch
+#        - bootstrap.memory_lock=true
+#        - "ES_JAVA_OPTS=-Xms4096m -Xmx4096m"
+#        - "network.publish_host=0.0.0.0"
+#        - "network.host=0.0.0.0"
+#        - "network.bind_host: 0.0.0.0"
+#        - "discovery.zen.ping.unicast.hosts=elasticsearch"
+#        - "xpack.security.enabled=false"
+#        - "xpack.graph.enabled=false"
+#        - "xpack.ml.enabled=false"
+#        - "xpack.monitoring.enabled=false"
+#        - "xpack.watcher.enabled=false"
+#        - "cluster.routing.allocation.disk.threshold_enabled=false"
+#        ulimits:
+#            memlock:
+#                soft: -1
+#                hard: -1
+#        volumes:
+#        - esdata1:/usr/share/elasticsearch/data
+#        ports:
+#        - 9200:9200
+#        - 9300:9300
+#        networks:
+#        - nw_doccloud_app
+#    elasticsearch2-test:
+#        image: docker.elastic.co/elasticsearch/elasticsearch:6.7.1
+#        container_name: elasticsearch2-test
+#        environment:
+#        - cluster.name=elasticsearch
+#        - bootstrap.memory_lock=true
+#        - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+#        - "discovery.zen.ping.unicast.hosts=elasticsearch"
+#        - "network.publish_host=0.0.0.0"
+#        - "xpack.security.enabled=false"
+#        - "xpack.graph.enabled=false"
+#        - "xpack.ml.enabled=false"
+#        - "xpack.monitoring.enabled=false"
+#        - "xpack.watcher.enabled=false"
+#        - "cluster.routing.allocation.disk.threshold_enabled=false"
+#        ulimits:
+#            memlock:
+#                soft: -1
+#                hard: -1
+#        volumes:
+#        - esdata2:/usr/share/elasticsearch/data
+#        networks:
+#        - nw_doccloud_app
+
+
+    docclouddb-test:
+        image: "postgres" # use latest official postgres version
+        env_file:
+            - database.env # configure postgres
+        ports:
+            - 5432:5432
+        networks:
+            - nw_doccloud_test
+networks:
+    nw_doccloud_test:
