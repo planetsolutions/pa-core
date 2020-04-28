@@ -46,12 +46,6 @@ public abstract class CmisTest extends CommonTest {
     static CmisBinding provider;
     static final String REPOSITORY_NAME = "test";
 
-//    @Before
-//    public void setUp(){
-//        provider = getClientBindings(createURLWithPort("/jooq/browser", port), DEFAULT_USER, DEFAULT_PASS, jwtToken);
-//    }
-
-//    @BeforeClass
     @Before
     public void init() throws SQLException {
         super.init();

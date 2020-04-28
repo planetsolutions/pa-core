@@ -58,13 +58,13 @@ public abstract class CommonTest extends DockerComposeTest {
 
     public Connection connection;
 
-    @Before
+//    @Before
     public void init() throws SQLException {
 //        System.out.println("datasource " + dataSource);
         httpClient = HttpClientBuilder.create().build();
         jwtToken = JWTMock.getJWT(DEFAULT_USER);
         Connection connection = dataSource.getConnection();
-        System.out.println(port);
+//        System.out.println(port);
 //        ScriptUtils.executeSqlScript(connection, new ClassPathResource("clean_test_data.sql"));
 //        ScriptUtils.executeSqlScript(connection, new ClassPathResource("test_data_find.sql"));
     }

@@ -3,26 +3,15 @@ package ru.doccloud.cmis;
 
 import org.apache.chemistry.opencmis.commons.data.ObjectData;
 import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
-import org.apache.chemistry.opencmis.commons.exceptions.CmisInvalidArgumentException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.doccloud.webapp.WebApplication;
 
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -33,17 +22,8 @@ import static org.junit.Assert.*;
 @ActiveProfiles("test")
 public class CmisGetObjectTest extends CmisTest {
 
-
-
-
-//    @BeforeClass
-//    public static void init(){
-////        super.init();
-//    }
-
     @Test(expected = CmisRuntimeException.class)
     public void getObjectByRandomId_thenException(){
-        System.out.println("datasource " + dataSource);
         final String objectId = UUID.randomUUID().toString();
 
         provider.getObjectService().getObject(REPOSITORY_NAME, objectId,

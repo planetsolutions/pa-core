@@ -92,5 +92,7 @@ services:
             - 5432:5432
         networks:
             - nw_doccloud_test
+        volumes:
+            - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
 networks:
     nw_doccloud_test:
