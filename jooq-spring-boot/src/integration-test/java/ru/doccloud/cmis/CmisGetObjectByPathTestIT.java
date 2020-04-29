@@ -22,7 +22,7 @@ import static org.junit.Assert.assertNotNull;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(classes = {WebApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class CmisGetObjectByPathTest extends CmisTest {
+public class CmisGetObjectByPathTestIT extends CmisTest {
 
     @Test(expected = CmisInvalidArgumentException.class)
     public void getObjectByPath_whenPathBlank_thenCmisInvalidArgumentException(){

@@ -9,7 +9,7 @@ public class DockerComposeTest {
     @ClassRule
     public static DockerComposeContainer compose =
             new DockerComposeContainer(
-                    new File("src/test/resources/docker-compose-test.yml"))
+                    new File("src/integration-test/resources/docker-compose-test.yml"))
                     .withExposedService("hazelcast-test", 5701)
 //            .withExposedService("hazelcast-man-test", 8088)
             .withExposedService("docclouddb-test", 5432);

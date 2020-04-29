@@ -4,10 +4,10 @@ server:
 
 pa:
   hazelcast:
-    address: hazelcast-test
-    connLimit: 5
-    connPeriod: 10000
-    timeout: 5000
+    address: hazelcast
+    сonnectionAttemptLimit: 1
+    сonnectionAttemptPeriod: 10000
+    сonnectionTimeout: 1000
 
   persistence:
     realmds:

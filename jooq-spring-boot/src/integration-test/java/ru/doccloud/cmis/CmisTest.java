@@ -5,7 +5,6 @@ import org.apache.chemistry.opencmis.client.bindings.CmisBindingFactory;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.spi.CmisBinding;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import ru.doccloud.common.CommonTest;
 
 import java.sql.SQLException;

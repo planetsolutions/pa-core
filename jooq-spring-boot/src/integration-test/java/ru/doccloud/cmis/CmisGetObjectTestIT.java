@@ -4,6 +4,7 @@ package ru.doccloud.cmis;
 import org.apache.chemistry.opencmis.commons.data.ObjectData;
 import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +21,7 @@ import static org.junit.Assert.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(classes = {WebApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class CmisGetObjectTest extends CmisTest {
+public class CmisGetObjectTestIT extends CmisTest {
 
     @Test(expected = CmisRuntimeException.class)
     public void getObjectByRandomId_thenException(){
@@ -56,7 +57,7 @@ public class CmisGetObjectTest extends CmisTest {
 
     @Test
     public void getObjectById_thenObjectReturned(){
-        final String objectId = "0ff729c3-3b26-463f-8006-2fd79bdc124a";
+        final String objectId = "5d05e877-a493-4fc9-9e5f-8fefaa84b437";
 
             ObjectData myObject = provider.getObjectService().getObject(REPOSITORY_NAME, objectId,
                     "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);

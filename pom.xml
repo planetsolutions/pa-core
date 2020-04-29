@@ -314,15 +314,23 @@
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>properties-maven-plugin</artifactId>
                     </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sql-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                    </plugin>
                 </plugins>
             </build>
             <properties>
-                <packaging.type>war</packaging.type>
+                <packaging.type>jar</packaging.type>
                 <build.profile.id>integration-test</build.profile.id>
                 <skip.integration.tests>false</skip.integration.tests>
                 <skip.unit.tests>true</skip.unit.tests>
                 <!--<jooq.generator.db.dialect> org.jooq.util.h2</jooq.generator.db.dialect>-->
-                <skip.db.creation>true</skip.db.creation>
+<!--                <skip.db.creation>true</skip.db.creation>-->
             </properties>
         </profile>
     </profiles>
@@ -383,6 +391,7 @@
                     <version>2.16</version>
                     <configuration>
                         <skipTests>${skip.unit.tests}</skipTests>
+
                         <excludes>
                             <exclude>**/IT*.java</exclude>
                         </excludes>
@@ -394,21 +403,43 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>2.16</version>
                     <executions>
-                        <!-- States that both integration-test and verify goals of the Failsafe Maven plugin are executed. -->
                         <execution>
                             <id>integration-tests</id>
                             <goals>
-                                <!--<goal>integration-test</goal>-->
                                 <goal>verify</goal>
                             </goals>
+
                             <configuration>
-                                <!-- Skips integration tests if the value of skip.integration.tests property is true -->
                                 <skipTests>${skip.integration.tests}</skipTests>
-                                <!--<systemPropertiesFile>profiles/${build.profile.id}/system.properties</systemPropertiesFile>-->
                             </configuration>
                         </execution>
+
                     </executions>
                 </plugin>
+<!--                todo clarify why run suite classes throws java.lang.ArrayStoreException: sun.reflect.annotation.TypeNotPresentExceptionProxy-->
+<!--                <plugin>-->
+<!--                    <groupId>org.apache.maven.plugins</groupId>-->
+<!--                    <artifactId>maven-failsafe-plugin</artifactId>-->
+<!--                    <version>2.22.1</version>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <goals>-->
+<!--&lt;!&ndash;                                <goal>integration-test</goal>&ndash;&gt;-->
+<!--                                <goal>verify</goal>-->
+<!--                            </goals>-->
+<!--                            <configuration>-->
+<!--                                <skipTests>${skip.integration.tests}</skipTests>-->
+<!--                                <useSystemClassLoader>false</useSystemClassLoader>-->
+<!--                                <argLine>${failsafeArgLine}</argLine>-->
+<!--                                <includes>-->
+<!--                                    <include>**/Suite*.java</include>-->
+<!--                                    <include>**/*Suite.java</include>-->
+<!--                                </includes>-->
+<!--                            </configuration>-->
+
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                </plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>

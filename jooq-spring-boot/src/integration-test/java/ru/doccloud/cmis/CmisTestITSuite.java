@@ -7,9 +7,9 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses(
         {
-                CmisGetObjectByPathTest.class,
-                CmisGetObjectTest.class
+                CmisGetObjectByPathTestIT.class,
+                CmisGetObjectTestIT.class
         }
 )
-public class CmisTestSuite {
+public class CmisTestITSuite {
 }
