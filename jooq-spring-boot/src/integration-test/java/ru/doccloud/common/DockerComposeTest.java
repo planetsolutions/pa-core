@@ -5,7 +5,7 @@ import org.testcontainers.containers.DockerComposeContainer;
 
 import java.io.File;
 
-public class DockerComposeTest {
+public abstract class DockerComposeTest {
     @ClassRule
     public static DockerComposeContainer compose =
             new DockerComposeContainer(

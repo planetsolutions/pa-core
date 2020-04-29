@@ -48,6 +48,7 @@ pa:
 logging:
   level:
     root: WARN
+    ru.doccloud.cmis.server.repository.BridgeRepository: TRACE
     #    ru.doccloud.webapp.*: TRACE
     #    ru.doccloud.service.impl.*: TRACE
     #    org.springframework.cache.*: TRACE

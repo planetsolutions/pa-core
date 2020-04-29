@@ -46,8 +46,8 @@ public abstract class CmisTest extends CommonTest {
     static final String REPOSITORY_NAME = "test";
 
     @Before
-    public void init() throws SQLException {
-        super.init();
+    public void setUp() throws SQLException {
+        super.setUp();
          provider = getClientBindings(createURLWithPort("/jooq/browser", port), DEFAULT_USER, DEFAULT_PASS, jwtToken);
     }
 
@@ -83,7 +83,7 @@ public abstract class CmisTest extends CommonTest {
         return factory.createCmisBrowserBinding(parameter);
     }
 
-    private static String createURLWithPort(String uri, int port) {
+    public static String createURLWithPort(String uri, int port) {
         return "http://localhost:" + port + uri;
     }
 }
