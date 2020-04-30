@@ -52,47 +52,30 @@ public class CmisGetObjectTestIT extends CmisTest {
                 "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
         assertNotNull(myObject);
         assertEquals(ROOT_ID, myObject.getId());
-
-//        assertNotNull(myObject.getProperties().getProperties().get(objectNameKey).getValues());
-//
-//        final String expectedName = "Root folder";
-//        assertEquals(expectedName, myObject.getProperties().getProperties().get(objectNameKey).getValues().get(0));
-//
-//
-//        assertNotNull(myObject.getProperties().getProperties().get(parentKey).getValues());
-//        assertEquals(0, myObject.getProperties().getProperties().get(parentKey).getValues().size());
-//
-//        assertNotNull(myObject.getProperties().getProperties().get(pathKey).getValues());
-//
-//        final String expectedPath = "Root folder";
-//        assertEquals(expectedPath, myObject.getProperties().getProperties().get(pathKey).getValues().get(0));
     }
 
     @Test
     public void getObjectById_thenObjectReturned(){
-        final String objectId = "5d05e877-a493-4fc9-9e5f-8fefaa84b437";
+         String objectId = "1e1d16c9-bbd8-4ce3-8d77-28082a8bd59e";
 
-            ObjectData myObject = provider.getObjectService().getObject(REPOSITORY_NAME, objectId,
-                    "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
+        ObjectData objectData = provider.getObjectService().getObject(REPOSITORY_NAME, objectId,
+                "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
 
-        assertNotNull(myObject);
-        assertEquals(objectId, myObject.getId());
+        assertCriteria(objectData, objectId, "00000000-0000-0000-0000-000000000000", "child_1", "child_1", "tenant", "cmis child folder");
 
-        assertNotNull(myObject.getProperties().getProperties().get(objectNameKey).getValues());
+        objectId = "3f4a17ca-2200-4bb0-b7fe-973bd715baf7";
+        objectData = provider.getObjectService().getObject(REPOSITORY_NAME, objectId,
+                "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
 
-        final String expectedName = "Тенант";
-        assertEquals(expectedName, myObject.getProperties().getProperties().get(objectNameKey).getValues().get(0));
+        assertCriteria(objectData, objectId, "1e1d16c9-bbd8-4ce3-8d77-28082a8bd59e", "child_name", "child_name", "treeroot", "child 1 of child_1");
+
+        objectId = "e3fefcc7-d6f1-479f-a844-4b8546753042";
+        objectData = provider.getObjectService().getObject(REPOSITORY_NAME, objectId,
+                "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
+
+        assertCriteria(objectData, objectId, "1e1d16c9-bbd8-4ce3-8d77-28082a8bd59e", "child_name", "child_name", "treeroot", "child 2 of child_1");
 
 
-        assertNotNull(myObject.getProperties().getProperties().get(parentKey).getValues());
-
-        final String expectedParentId = "00000000-0000-0000-0000-000000000000";
-        assertEquals(expectedParentId, myObject.getProperties().getProperties().get(parentKey).getValues().get(0));
-
-        assertNotNull(myObject.getProperties().getProperties().get(pathKey).getValues());
-
-        final String expectedPath = "Тенант";
-        assertEquals(expectedPath, myObject.getProperties().getProperties().get(pathKey).getValues().get(0));
     }
 
 

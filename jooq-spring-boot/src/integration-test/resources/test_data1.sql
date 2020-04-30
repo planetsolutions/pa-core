@@ -111,3 +111,60 @@ id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_
 INSERT INTO documents (
 id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type)
   VALUES (7,'child_name_1_1_1','child_doc_name_1','document',NULL,'3f4a17ca-2200-4bb0-b7fe-973bd715baf7','0841d456-0eea-4409-8e87-d80707c36a89','document');
+
+
+
+
+--INSERT INTO documents (id, sys_date_cr, sys_desc, sys_date_mod, sys_title, sys_author, sys_modifier, sys_readers, sys_editors, sys_folders, sys_type, sys_version, sys_parent, sys_file_path, sys_file_mime_type, sys_file_length, data, sys_file_name, sys_uuid, sys_file_storage, sys_base_type, sys_tenant, sys_application, sys_symbolic_name, sys_source_id, sys_acl, sys_status, sys_parent_uuid, ver_islast, ver_series_uuid) VALUES (1,'2017-07-04 12:43:06.420974',NULL,'2017-07-31 10:00:48.898','Тенант','boot','boot','{boot,admins,all,editors}',NULL,NULL,'tenant','0.2','0',NULL,NULL,NULL,NULL,NULL,'5d05e877-a493-4fc9-9e5f-8fefaa84b437',NULL,'folder', NULL, NULL, NULL, NULL, '{"full":["admins"],"read":["boot","admins","all","editors"],"edit_prop":["editors","admins"],"view_prop":["boot","admins","all","editors"],"modify_security":["admins"],"change_content":["editors","admins"],"delete":["admins"]}', NULL, '00000000-0000-0000-0000-000000000000', true, '584b3eac-ebeb-42b1-b0d4-f453dbdec7c9');
+--INSERT INTO documents (id, sys_date_cr, sys_desc, sys_date_mod, sys_title, sys_author, sys_modifier, sys_readers, sys_editors, sys_folders, sys_type, sys_version, sys_parent, sys_file_path, sys_file_mime_type, sys_file_length, data, sys_file_name, sys_uuid, sys_file_storage, sys_base_type, sys_tenant, sys_application, sys_symbolic_name, sys_source_id, sys_acl, sys_status, sys_parent_uuid, ver_islast, ver_series_uuid) VALUES (2,'2017-07-04 20:09:24.741792',NULL,'2017-11-21 08:50:56.15','Приложение','boot','boot','{boot,admins,all,editors}',NULL,NULL,'application','0.3','1',NULL,NULL,NULL,'{}',NULL,'584b3eac-ebeb-42b1-b0d4-f453dbdec7c9',NULL,'folder', NULL, NULL, NULL, NULL, '{"full":["admins"],"read":["boot","admins","all","editors"],"edit_prop":["editors","admins"],"view_prop":["boot","admins","all","editors"],"modify_security":["admins"],"change_content":["editors","admins"],"delete":["admins"]}', NULL, '5d05e877-a493-4fc9-9e5f-8fefaa84b437', true, '584b3eac-ebeb-42b1-b0d4-f453dbdec7c9');
+--INSERT INTO documents (id, sys_date_cr, sys_desc, sys_date_mod, sys_title, sys_author, sys_modifier, sys_readers, sys_editors, sys_folders, sys_type, sys_version, sys_parent, sys_file_path, sys_file_mime_type, sys_file_length, data, sys_file_name, sys_uuid, sys_file_storage, sys_base_type, sys_tenant, sys_application, sys_symbolic_name, sys_source_id, sys_acl, sys_status, sys_parent_uuid, ver_islast, ver_series_uuid) VALUES (3,'2017-07-05 09:36:36.997871',NULL,'2017-07-05 09:36:36.997871','Папки','boot',NULL,'{boot,admins,all,editors}',NULL,NULL,'treeroot','0.1','2',NULL,NULL,NULL,NULL,NULL,'979b20dd-8722-495d-abcd-a07db4ad7281',NULL,'folder', NULL, NULL, NULL, NULL, '{"full":["admins"],"read":["boot","admins","all","editors"],"edit_prop":["editors","admins"],"view_prop":["boot","admins","all","editors"],"modify_security":["admins"],"change_content":["editors","admins"],"delete":["admins"]}', NULL, '584b3eac-ebeb-42b1-b0d4-f453dbdec7c9', true, '584b3eac-ebeb-42b1-b0d4-f453dbdec7c9');
+--INSERT INTO documents (id, sys_date_cr, sys_desc, sys_date_mod, sys_title, sys_author, sys_modifier, sys_readers, sys_editors, sys_folders, sys_type, sys_version, sys_parent, sys_file_path, sys_file_mime_type, sys_file_length, data, sys_file_name, sys_uuid, sys_file_storage, sys_base_type, sys_tenant, sys_application, sys_symbolic_name, sys_source_id, sys_acl, sys_status, sys_parent_uuid, ver_islast) VALUES (4,'2017-08-25 09:42:46.402356',NULL,'2017-08-25 09:44:40.953','Поиск по номеру','boot','boot','{boot,admins,all,editors}',NULL,NULL,'search','0.2','2',NULL,NULL,NULL,NULL,NULL,'94cbf206-b749-413d-b826-3b0acac8bac6',NULL,'folder', NULL, NULL, NULL, NULL, '{"full":["admins"],"read":["boot","admins","all","editors"],"edit_prop":["editors","admins"],"view_prop":["boot","admins","all","editors"],"modify_security":["admins"],"change_content":["editors","admins"],"delete":["admins"]}', NULL, '584b3eac-ebeb-42b1-b0d4-f453dbdec7c9', true);
+--
+--INSERT INTO documents (id, sys_date_cr, sys_desc, sys_date_mod, sys_title, sys_author, sys_modifier, sys_readers, sys_editors, sys_folders, sys_type, sys_version, sys_parent, sys_file_path, sys_file_mime_type, sys_file_length, data, sys_file_name, sys_uuid, sys_file_storage, sys_base_type, sys_tenant, sys_application, sys_symbolic_name, sys_source_id, sys_acl, sys_status, sys_parent_uuid, ver_islast) VALUES (5,'2018-02-10 17:39:44.535168','Тестовый поиск без вложения','2018-02-10 17:39:44.593','Тестовый поиск без вложения','boot','boot','{boot,admins,all,editors}',NULL,NULL,'search-composition','0.1','4',NULL,NULL,NULL,'{"fields":[{"dataType":"STRING","hidden":false,"sortable":true,"name":"d_create_d","label":"Дата создания документа"},{"dataType":"STRING","hidden":false,"sortable":true,"name":"d_sign","label":"Дата подписания документа"},{"dataType":"STRING","hidden":false,"sortable":true,"name":"name_docum","label":"Название документа"}],"search_form":{"layout":[{"displayFlex":true,"items":[{"flex":"1 1 auto","notitle":true,"type":"date","key":"d_create_d-from","fieldHtmlClass":"input-sm"},{"flex":"1 1 auto","notitle":true,"type":"date","key":"d_create_d-to","fieldHtmlClass":"input-sm"}],"flex-direction":"row","type":"div","title":"Дата создания документа"},{"displayFlex":true,"items":[{"flex":"1 1 auto","notitle":true,"type":"date","key":"d_sign-from","fieldHtmlClass":"input-sm"},{"flex":"1 1 auto","notitle":true,"type":"date","key":"d_sign-to","fieldHtmlClass":"input-sm"}],"flex-direction":"row","type":"div","title":"Дата подписания документа"},{"fieldHtmlClass":"input-sm","type":"text","key":"name_docum","title":"Название документа:"}],"schema":{"properties":{"d_create_d-from":{"type":"string"},"d_create_d-to":{"type":"string"},"name_docum":{"type":"string"},"d_sign-from":{"type":"string"},"d_sign-to":{"type":"string"}}}},"type":"date_period"}',NULL,'0c11c4bc-4f57-4ee8-b2dd-3fc1f240a6a9',NULL,'document',NULL,NULL,NULL,'test_sourceId','{"full":["admins"],"read":["boot","admins","all","editors"],"edit_prop":["editors","admins"],"view_prop":["boot","admins","all","editors"],"modify_security":["admins"],"change_content":["editors","admins"],"delete":["admins"]}',NULL,'94cbf206-b749-413d-b826-3b0acac8bac6', true);
+--
+--INSERT INTO documents (id, sys_date_cr, sys_desc, sys_date_mod, sys_title, sys_author, sys_modifier, sys_readers, sys_editors, sys_folders,
+--					   sys_type, sys_version, sys_parent, sys_file_path, sys_file_mime_type, sys_file_length, data, sys_file_name, sys_uuid,
+--					   sys_file_storage, sys_base_type, sys_tenant, sys_application, sys_symbolic_name, sys_source_id, sys_acl, sys_status,
+--					   sys_parent_uuid, ver_islast)
+--VALUES (6,'2017-08-25 09:42:46.402356',NULL,'2017-08-25 09:44:40.953','Поиск по номеру','admin','admin','{boot,admins,all,editors}',NULL,NULL,'document','0.2','2',
+--		NULL,NULL,NULL,NULL,NULL,'3e3bed38-0166-4ac3-87ca-bf8b0d5a3ec0',NULL,'document', NULL, NULL, NULL, 'test_sourceId1',
+--		'{"full":["admins"],"read":["boot","admins","all","editors"],"edit_prop":["editors","admins"],
+--		"view_prop":["boot","admins","all","editors"],"modify_security":["admins"],"change_content":["editors","admins"],"delete":["admins"]}',
+--		NULL, '584b3eac-ebeb-42b1-b0d4-f453dbdec7c9', true);
+--
+--
+--INSERT INTO documents (id, sys_date_cr, sys_desc, sys_date_mod, sys_title, sys_author, sys_modifier, sys_readers, sys_editors, sys_folders,
+--					   sys_type, sys_version, sys_parent, sys_file_path, sys_file_mime_type, sys_file_length, data, sys_file_name, sys_uuid,
+--					   sys_file_storage, sys_base_type, sys_tenant, sys_application, sys_symbolic_name, sys_source_id, sys_acl, sys_status,
+--					   sys_parent_uuid, ver_islast)
+--VALUES (7,'2017-08-25 09:42:46.402356',NULL,'2017-08-25 09:44:40.953','Поиск по номеру','admin','admin','{boot,admins,all,editors}',NULL,NULL,'document','0.2','2',
+--		NULL,NULL,NULL,NULL,NULL,'86cb5af6-ee61-4330-9cc9-aa92d997296b',NULL,'document', NULL, NULL, NULL, 'test_sourceId2',
+--		'{"full":["admins"],"read":["boot","admins","all","editors"],"edit_prop":["editors","admins"],
+--		"view_prop":["boot","admins","all","editors"],"modify_security":["admins"],"change_content":["editors","admins"],"delete":["admins"]}',
+--		NULL, '584b3eac-ebeb-42b1-b0d4-f453dbdec7c9', true);
+--
+--
+--INSERT INTO documents (id, sys_date_cr, sys_desc, sys_date_mod, sys_title, sys_author, sys_modifier, sys_readers, sys_editors, sys_folders,
+--					   sys_type, sys_version, sys_parent, sys_file_path, sys_file_mime_type, sys_file_length, data, sys_file_name, sys_uuid,
+--					   sys_file_storage, sys_base_type, sys_tenant, sys_application, sys_symbolic_name, sys_source_id, sys_acl, sys_status,
+--					   sys_parent_uuid, ver_islast)
+--VALUES (8,'2017-08-25 09:42:46.402356',NULL,'2017-08-25 09:44:40.953','Поиск по номеру','boot','boot','{boot,admins,all,editors}',NULL,NULL,'document','0.2','2',
+--		NULL,NULL,NULL,NULL,NULL,'6eb28ae8-0432-4c2a-bf45-5e11ee99f444',NULL,'document', NULL, NULL, NULL, 'test_sourceId3',
+--		'{"full":["admins"],"read":["boot","admins","all","editors"],"edit_prop":["editors","admins"],
+--		"view_prop":["boot","admins","all","editors"],"modify_security":["admins"],"change_content":["editors","admins"],"delete":["admins"]}',
+--		NULL, '584b3eac-ebeb-42b1-b0d4-f453dbdec7c9', true);
+--
+--INSERT INTO documents (id, sys_date_cr, sys_desc, sys_date_mod, sys_title, sys_author, sys_modifier, sys_readers, sys_editors, sys_folders,
+--					   sys_type, sys_version, sys_parent, sys_file_path, sys_file_mime_type, sys_file_length, data, sys_file_name, sys_uuid,
+--					   sys_file_storage, sys_base_type, sys_tenant, sys_application, sys_symbolic_name, sys_source_id, sys_acl, sys_status,
+--					   sys_parent_uuid, ver_islast)
+--VALUES (9,'2017-08-25 09:42:46.402356',NULL,'2017-08-25 09:44:40.953','Поиск по номеру','boot','boot','{boot,admins,all,editors}',NULL,NULL,'document','0.2','2',
+--		'test',NULL,NULL,NULL,NULL,'aa3497de-128d-4e02-b677-c9f003c877f5',NULL,'document', NULL, NULL, NULL, 'test_sourceId4',
+--		'{"full":["admins"],"read":["boot","admins","all","editors"],"edit_prop":["editors","admins"],
+--		"view_prop":["boot","admins","all","editors"],"modify_security":["admins"],"change_content":["editors","admins"],"delete":["admins"]}',
+--		NULL, '584b3eac-ebeb-42b1-b0d4-f453dbdec7c9', true);
+--
+--
+--
+--insert into links (head_id, tail_id, link_type) values ('94cbf206-b749-413d-b826-3b0acac8bac6', '0c11c4bc-4f57-4ee8-b2dd-3fc1f240a6a9', 'search-composition');
+--insert into links (head_id, tail_id, link_type) values ('aa3497de-128d-4e02-b677-c9f003c877f5', '0c11c4bc-4f57-4ee8-b2dd-3fc1f240a6a9', 'search-composition');
