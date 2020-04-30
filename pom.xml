@@ -402,6 +402,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>2.16</version>
+                    <configuration>
+                        <includes>
+                            <include>**/Suite*.java</include>
+                            <include>**/*Suite.java</include>
+                        </includes>
+                    </configuration>
                     <executions>
                         <execution>
                             <id>integration-tests</id>
@@ -411,35 +417,12 @@
 
                             <configuration>
                                 <skipTests>${skip.integration.tests}</skipTests>
+
                             </configuration>
                         </execution>
 
                     </executions>
                 </plugin>
-<!--                todo clarify why run suite classes throws java.lang.ArrayStoreException: sun.reflect.annotation.TypeNotPresentExceptionProxy-->
-<!--                <plugin>-->
-<!--                    <groupId>org.apache.maven.plugins</groupId>-->
-<!--                    <artifactId>maven-failsafe-plugin</artifactId>-->
-<!--                    <version>2.22.1</version>-->
-<!--                    <executions>-->
-<!--                        <execution>-->
-<!--                            <goals>-->
-<!--&lt;!&ndash;                                <goal>integration-test</goal>&ndash;&gt;-->
-<!--                                <goal>verify</goal>-->
-<!--                            </goals>-->
-<!--                            <configuration>-->
-<!--                                <skipTests>${skip.integration.tests}</skipTests>-->
-<!--                                <useSystemClassLoader>false</useSystemClassLoader>-->
-<!--                                <argLine>${failsafeArgLine}</argLine>-->
-<!--                                <includes>-->
-<!--                                    <include>**/Suite*.java</include>-->
-<!--                                    <include>**/*Suite.java</include>-->
-<!--                                </includes>-->
-<!--                            </configuration>-->
-
-<!--                        </execution>-->
-<!--                    </executions>-->
-<!--                </plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>

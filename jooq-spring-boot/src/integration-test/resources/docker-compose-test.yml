@@ -21,15 +21,15 @@ services:
 #        - /etc/localtime:/etc/localtime:ro
 #        - /opt/doccloud/docker/stack/scality/localMetadata:/usr/src/app/localMetadata
 #        - /opt/doccloud/docker/stack/scality/localData:/usr/src/app/localData
-#    hazelcast-man-test:
-##        container_name: hazelcast-man-test
-#        image: hazelcast/management-center:latest
-#        ports:
-#            - 8088:8080
-#        networks:
-#            - nw_doccloud_test
-#        volumes:
-#            - /etc/localtime:/etc/localtime:ro
+    hazelcast-man-test:
+#        container_name: hazelcast-man-test
+        image: hazelcast/management-center:latest
+        ports:
+            - 8080:8080
+        networks:
+            - nw_doccloud_test
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
     #
 #    elasticsearch-test:
 #        image: docker.elastic.co/elasticsearch/elasticsearch:6.7.1
