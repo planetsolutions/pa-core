@@ -111,3 +111,9 @@ id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_
 INSERT INTO documents (
 id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type)
   VALUES (7,'child_name_1_1_1','child_doc_name_1','document',NULL,'3f4a17ca-2200-4bb0-b7fe-973bd715baf7','0841d456-0eea-4409-8e87-d80707c36a89','document');
+
+INSERT INTO documents (
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type)
+  VALUES (8,'child folder with the same name as document','child_doc_name_1','folder',NULL,'3f4a17ca-2200-4bb0-b7fe-973bd715baf7','95e989d8-98cd-4cfd-a9be-352749e95899','folder');
+
+

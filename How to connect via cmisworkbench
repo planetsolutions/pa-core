@@ -13,3 +13,10 @@ org.apache.chemistry.opencmis.locale.iso639=en
 org.apache.chemistry.opencmis.binding.connecttimeout=30000
 org.apache.chemistry.opencmis.binding.readtimeout=600000
 org.apache.chemistry.opencmis.binding.header.0=cmisJwtAuthorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJib290Iiwicm9sZXMiOlsiYWRtaW4iLCJyZWFkd3JpdGUiLCJ0b21jYXQiXSwiaWF0IjoxNTg3NDY3MDEzLCJleHAiOjE1ODgzMzEwMTN9.EAfJIyngyhT8uveCUZKcabhQov6tWGgrAfmMUv_BK9HPiwVECkCx_Zzv_g2WUk6udLBptBCZVx-in0B2otOjLQ
+
+
+
+
+Логика такая, отрезаем последний элемент пути и пытаемся найти папку,
+ а потом по id папки и последнему элементу пути находим объект,
+ это может быть и папка и документ.
