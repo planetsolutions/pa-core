@@ -527,37 +527,16 @@ public class DocumentController extends AbstractController {
     private DocumentDTO addDoc(DocumentDTO dto, String user) throws Exception {
 
         LOGGER.debug("entering addDoc(dto={}, user= {}");
+
         //final String minorDocVersion = VersionHelper.generateMinorDocVersion(dto.getDocVersion());
         //LOGGER.debug("addDoc(): minorDocVersion {}", minorDocVersion);
         //dto.setDocVersion(minorDocVersion);
-        if (dto.getDocVersion() != null) {
-            if (dto.getDocVersion().split("\\|").length > 1) {
-                String[] verInfo = dto.getDocVersion().split("\\|");
-                String isLast = verInfo[0];
-                String verNum = verInfo[1];
-                String verSeries = verInfo[2];
-                String verParent = verInfo[3];
-                if (!verSeries.equals(dto.getSourceId())) {
-                    DocumentDTO series = crudService.findBySourceID(verSeries);
-                    dto.setVersionSeries(series.getId());
-                    if (verSeries.equals(verParent)) {
-                        dto.setVersionParent(series.getId());
-                    } else if (verParent.equals("0000000000000000")) {
-                        dto.setVersionParent(series.getId());
-                    } else {
-                        DocumentDTO verParDoc = crudService.findBySourceID(verParent);
-                        dto.setVersionParent(verParDoc.getId());
-                    }
-                }
-                if (isLast.equals("F")) {
-                    dto.setLastVersion(false);
-                } else {
-                    dto.setLastVersion(true);
-                }
-                dto.setDocVersion(verNum);
-
-            }
+        boolean versionsFromImport = false;
+        if (dto.getDocVersion() != null && dto.getDocVersion().split("\\|").length > 1) {
+            dto = handleVersionsFromImport(dto);
+            versionsFromImport = true;
         }
+
         if (dto.getSourceParent() != null) {
             try {
                 DocumentDTO par = crudService.findBySourceID(dto.getSourceParent());
@@ -567,13 +546,87 @@ public class DocumentController extends AbstractController {
             }
         }
 
-        final DocumentDTO documentDTO = crudService.add(dto, user);
+        DocumentDTO documentDTO = crudService.add(dto, user);
         if (dto.getLinks() != null) {
             addLinks(dto, documentDTO.getId());
         }
+        if (!versionsFromImport && dto.getVersionParent() != null) {
+            documentDTO = processNewVersion(documentDTO, user);
+        }
+
         LOGGER.debug("leaving addDoc(): created document = {}", documentDTO);
 
         return documentDTO;
+    }
+
+    private DocumentDTO processNewVersion(DocumentDTO dto, String user) throws Exception {
+        UUID parentVersionId = dto.getVersionParent();
+        DocumentDTO parentDoc = crudService.findById(parentVersionId, dto.getType(), false);
+
+        if (parentDoc != null) {
+            // find out the latest version in the series
+            UUID versionSeries;
+            if (parentDoc.getVersionSeries() != null) {
+                versionSeries = parentDoc.getVersionSeries();
+                if (!parentDoc.isLastVersion()) {
+                    for (DocumentDTO ver : crudService.findAllVersions(versionSeries)) {
+                        if (ver.isLastVersion()) {
+                            parentDoc = ver;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                versionSeries = UUID.randomUUID();
+                parentDoc.setVersionSeries(versionSeries);
+            }
+            dto.setVersionSeries(versionSeries);
+            dto.setVersionParent(parentDoc.getUuid());
+
+            // find out the next version number
+            dto.setDocVersion(VersionHelper.generateMajorDocVersion(parentDoc.getDocVersion()));
+
+            // set who's the latest version now
+            parentDoc.setLastVersion(false);
+            dto.setLastVersion(true);
+
+            // set the parent's folder if it's not redefined in the version
+            if (dto.getParent() == null) {
+                dto.setParent(parentDoc.getParent());
+            }
+
+            // update both versions
+            crudService.update(parentDoc, user);
+            dto = crudService.update(dto, user);
+        }
+        return dto;
+    }
+
+    private DocumentDTO handleVersionsFromImport(DocumentDTO dto) throws Exception {
+        String[] verInfo = dto.getDocVersion().split("\\|");
+        String isLast = verInfo[0];
+        String verNum = verInfo[1];
+        String verSeries = verInfo[2];
+        String verParent = verInfo[3];
+        if (!verSeries.equals(dto.getSourceId())) {
+            DocumentDTO series = crudService.findBySourceID(verSeries);
+            dto.setVersionSeries(series.getId());
+            if (verSeries.equals(verParent)) {
+                dto.setVersionParent(series.getId());
+            } else if (verParent.equals("0000000000000000")) {
+                dto.setVersionParent(series.getId());
+            } else {
+                DocumentDTO verParDoc = crudService.findBySourceID(verParent);
+                dto.setVersionParent(verParDoc.getId());
+            }
+        }
+        if (isLast.equals("F")) {
+            dto.setLastVersion(false);
+        } else {
+            dto.setLastVersion(true);
+        }
+        dto.setDocVersion(verNum);
+        return dto;
     }
 
     private void addLinks(DocumentDTO dto, UUID docUUID) {
