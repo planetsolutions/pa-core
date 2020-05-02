@@ -28,6 +28,9 @@ jobs:
 
       - name: Build and deploy Maven artifacts
         run: mvn -B deploy --file pom.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Build Docker image
         run: docker build . --tag $IMAGE_NAME
