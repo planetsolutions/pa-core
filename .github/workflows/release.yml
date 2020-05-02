@@ -31,7 +31,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Build Docker image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+        run: docker build ./images/ --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
