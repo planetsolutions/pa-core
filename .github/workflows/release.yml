@@ -1,9 +1,6 @@
 name: publish release
-on:
-  push:
-    branches: [ feature/docker-release ]
-#  release:
-#    types: [created]
+  release:
+    types: [created]
 
 env:
   IMAGE_NAME: pa-core-app
