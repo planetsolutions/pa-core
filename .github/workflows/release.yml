@@ -6,7 +6,7 @@ on:
 #    types: [created]
 
 env:
-  IMAGE_NAME: pa-core
+  IMAGE_NAME: pa-core-app
 
 jobs:
   publish:
@@ -51,5 +51,5 @@ jobs:
                 echo IMAGE_ID=$IMAGE_ID
                 echo VERSION=$VERSION
 
-                docker tag image $IMAGE_ID:$VERSION
+                docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
                 docker push $IMAGE_ID:$VERSION
