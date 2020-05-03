@@ -57,7 +57,7 @@
       // The `getUTCFullYear`, `Month`, and `Date` methods return nonsensical
       // results for certain dates in Opera >= 10.53.
       isExtended = isExtended.getUTCFullYear() == -109252 && isExtended.getUTCMonth() === 0 && isExtended.getUTCDate() === 1 &&
-        // Safari < 2.0.2 stores the internal millisecond time value correctly,
+        // Safari < 2.0.2-SNAPSHOT stores the internal millisecond time value correctly,
         // but clips the values returned by the date methods to the range of
         // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
         isExtended.getUTCHours() == 10 && isExtended.getUTCMinutes() == 37 && isExtended.getUTCSeconds() == 6 && isExtended.getUTCMilliseconds() == 708;

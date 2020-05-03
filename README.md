@@ -1,4 +1,4 @@
-![master build](https://github.com/planetsolutions/pa-core/workflows/master%20build/badge.svg)
+![master build](https://github.com/planetsolutions/pa-core/workflows/master%20build/badge.svg) ![test build](https://github.com/planetsolutions/pa-core/workflows/test%20build/badge.svg?branch=test)
 
 # PlanetArchive Core Services
 
