@@ -30,7 +30,7 @@ public interface DocumentRepository<Document>  extends CommonRepository<Document
 
     public Document findBySourceID(String sourceId);
 
-    public Document findByPath(String path);
+    public List<Document> findByPath(String path);
 
 	public List<Document> findAllVersions(UUID seriesId);
 

@@ -19,7 +19,8 @@ public interface DocumentCrudService<DocumentDTO> extends CommonService<Document
 
     public DocumentDTO addToFolder(final DocumentDTO todo, final String id, String user)  throws Exception;
 
-	public DocumentDTO findByPath(final String path);
+	// TODO: 06.05.2020 test what is beter return list of object with paretn or add parent object to DocumentDto
+	public List<DocumentDTO> findByPath(final String path);
 //
     List<DocumentDTO> findParents(UUID docId)  throws Exception;
 

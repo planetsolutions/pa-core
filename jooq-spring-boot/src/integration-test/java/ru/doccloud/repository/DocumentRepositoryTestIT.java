@@ -12,6 +12,8 @@ import ru.doccloud.common.exception.DocumentNotFoundException;
 import ru.doccloud.document.model.Document;
 import ru.doccloud.webapp.WebApplication;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -33,9 +35,10 @@ public class DocumentRepositoryTestIT extends CommonTest {
 
         String path = "/child_1/child_name_3/child_folder";
 
-        Document document = documentRepository.findByPath(path);
+        List<Document> documents = documentRepository.findByPath(path);
 
-        assertNotNull(document);
+        assertNotNull(documents);
+        assertEquals(2, documents.size());
 
         // TODO: 04.05.2020 add testCriteria
     }

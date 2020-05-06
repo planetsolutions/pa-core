@@ -43,35 +43,51 @@ public class JsonNodeParser {
         LOGGER.debug("leaving getValueJsonNode(): repository for save file {}", rootFolder);
         return rootFolder;
     }
+
+    // TODO: 06.05.2020 add unit test
     public static ObjectNode buildObjectNode(Record queryResult, String field){
         ObjectNode data = JsonNodeFactory.instance.objectNode();
         ObjectMapper mapper = new ObjectMapper();
 		try {
-			LOGGER.debug("field node - {}",queryResult.getValue(field).toString());
-			if (queryResult.getValue(field)!=null && queryResult.getValue(field).toString()!="null"){
-				JsonNode json = mapper.readTree(queryResult.getValue(field).toString());
-				if (!json.isNull() && json.getClass()!=NullNode.class){
-					data=(ObjectNode) json;
-				}
-			}
+            final Object fieldValue = queryResult.getValue(field);
+			if (fieldValue!=null){
+			    final String fieldValueStr = fieldValue.toString();
+			    if(!"null".equals(fieldValueStr)) {
+                    LOGGER.debug("field node - {}", fieldValueStr);
+                    final JsonNode json = mapper.readTree(fieldValueStr);
+                    if (!json.isNull() && json.getClass() != NullNode.class) {
+                        data = (ObjectNode) json;
+                    }
+                }
+			} else {
+			    LOGGER.debug("field node {} is null", field);
+            }
 		} catch (IllegalArgumentException | IOException e) {
 			LOGGER.error("getValueJsonNode(): exception {}", e.getMessage());
 		}
 
         return data;
     }
+
+    // TODO: 06.05.2020 add unit test
     public static ObjectNode buildObjectNode(Record queryResult, String[] fields){
         ObjectNode data = JsonNodeFactory.instance.objectNode();
         ObjectMapper mapper = new ObjectMapper();
-        if (fields!=null){
-        	if (fields[0].equals("all")){
+        if (fields!=null && fields.length >0){
+        	if ("all".equals(fields[0])){
         		try {
-        			if (queryResult.getValue("data")!=null && queryResult.getValue("data").toString()!="null"){
-        				LOGGER.debug("Data node - {}",queryResult.getValue("data").toString());
-        				JsonNode json = mapper.readTree(queryResult.getValue("data").toString());
-        				if (!json.isNull() && json.getClass()!=NullNode.class){
-        					data=(ObjectNode) json;
-        				}
+        		    final Object dataValue = queryResult.getValue("data");
+        			if (dataValue!=null){
+        			    final String dataValueStr = dataValue.toString();
+        			    if(!"null".equals(dataValueStr)) {
+                            LOGGER.debug("Data node - {}", dataValueStr);
+                            JsonNode json = mapper.readTree(dataValueStr);
+                            if (!json.isNull() && json.getClass() != NullNode.class) {
+                                data = (ObjectNode) json;
+                            }
+                        } else {
+                            LOGGER.debug("data is null");
+                        }
         			}
 				} catch (IllegalArgumentException | IOException e) {
 					LOGGER.error("getValueJsonNode(): exception {}", e.getMessage());

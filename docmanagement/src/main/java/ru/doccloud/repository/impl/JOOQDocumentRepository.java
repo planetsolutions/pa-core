@@ -4,12 +4,7 @@ package ru.doccloud.repository.impl;
 import static org.jooq.impl.DSL.*;
 import static ru.doccloud.document.jooq.db.tables.Documents.DOCUMENTS;
 import static ru.doccloud.document.jooq.db.tables.Links.LINKS;
-import static ru.doccloud.repository.util.DataQueryHelper.createWhereConditions;
-import static ru.doccloud.repository.util.DataQueryHelper.extendConditions;
-import static ru.doccloud.repository.util.DataQueryHelper.getPropertiesType;
-import static ru.doccloud.repository.util.DataQueryHelper.getQueryParams;
-import static ru.doccloud.repository.util.DataQueryHelper.getSortFields;
-import static ru.doccloud.repository.util.DataQueryHelper.getTableField;
+import static ru.doccloud.repository.util.DataQueryHelper.*;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -388,30 +383,33 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
     }
 
     @Override
-    public Document findByPath(String path) {
+    public List<Document> findByPath(String path) {
         LOGGER.trace("entering findByPath(path={})", path);
 
-        String docName = StringUtils.substringAfterLast(path, "/");
-        String nearestParentFolderPath = StringUtils.substringBeforeLast(path, "/");
-        nearestParentFolderPath = nearestParentFolderPath.startsWith("/") ? StringUtils.substringAfter(nearestParentFolderPath,"/") : nearestParentFolderPath;
+        final String docName = StringUtils.substringAfterLast(path, "/");
 
-        String parentFolderPath = path.startsWith("/") ? StringUtils.substringAfter(path,"/") : path;
+        final String parentFolderPath = path.startsWith("/") ? StringUtils.substringAfter(path,"/") : path;
 
-        LOGGER.trace("findByPath(): docName is {} , parentFolderPath is {]", docName, parentFolderPath);
+        LOGGER.trace("findByPath(): docName is {} , parentFolderPath is {}", docName, parentFolderPath);
         Field<String> pathToParent = DOCUMENTS.SYS_TITLE.as("path");
+
+
+        ArrayList<SelectField<?>> selectedFields = new ArrayList<SelectField<?>>();
+        selectedDefault(selectedFields, DOCUMENTS);
+        selectedFields.add(pathToParent);
+
+        ArrayList<SelectField<?>> selectedFieldsUnion = new ArrayList<SelectField<?>>();
+        selectedDefault(selectedFieldsUnion, DOCUMENTS);
+        selectedFieldsUnion.add(DOCUMENTS.SYS_TITLE.concat("/").concat(pathToParent));
 
         SelectQuery<?> folderPathQuery = jooq.withRecursive("folderPath")
                 .as(
-                        select(DOCUMENTS.SYS_UUID, DOCUMENTS.SYS_PARENT_UUID, DOCUMENTS.SYS_TITLE, DOCUMENTS.SYS_BASE_TYPE, pathToParent)
+                        select(selectedFields)
                                 .from(DOCUMENTS)
                                 .where(DOCUMENTS.SYS_TITLE.equal(docName))
                                 .unionAll(
                                         select(
-                                                DOCUMENTS.SYS_UUID,
-                                                DOCUMENTS.SYS_PARENT_UUID,
-                                                DOCUMENTS.SYS_TITLE,
-                                                DOCUMENTS.SYS_BASE_TYPE,
-                                                DOCUMENTS.SYS_TITLE.concat("/").concat(pathToParent)
+                                                selectedFieldsUnion
                                         )
                                                 .from(DOCUMENTS)
                                                 .join(
@@ -429,19 +427,9 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
 
         Result<?> queryResult = folderPathQuery.fetch();
 
-
-
-//        List<DocumentsRecord> queryResults = folderPathQuery.fetchInto(DocumentsRecord.class);
-//
-//        List<Document> documentEntries = DocumentConverter.convertQueryResultsToModelObjects(queryResults);
-
         LOGGER.trace("findByPath(): found {}", queryResult);
 
         boolean isFolderFound = queryResult.stream().anyMatch(r -> r.get("path").equals(parentFolderPath));
-
-//        Predicate<Record> isFound = r-> r.get("path").equals(parentFolderPath);
-
-//        UnaryOperator<Record> nearestParent = record -> record == null ? null : byParentUUID.apply((UUID) foundDoc.get("sys_parent_uuid"));
 
        if(isFolderFound) {
            Function<String, Record> byName = name -> queryResult.stream().filter(r -> r.get("path").equals(name)).findFirst().orElse(null);
@@ -456,22 +444,14 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
                    .filter(Objects::nonNull)
                    .collect(Collectors.toList());
            LOGGER.trace("findByPath(): filtered list {}",  recordList);
-       }
 
-//        if (isFolderFound) {
-//            String finalNearestParentFolderPath = nearestParentFolderPath;
-//            List<Record> recordList  =
-//                    queryResult.stream()
-//                            .filter(r -> r.get("path").equals(docName))
-////                            .filter(r -> queryResult.stream().anyMatch(record -> {
-////                                Record record1 =
-////                            }))
-//                            .collect(Collectors.toList());
-//
-//            LOGGER.trace("findByPath(): filtered list {}",  recordList);
-//        }
-        throw new IllegalStateException("Hasn't implemented yet");
-//        return null;
+// TODO: 06.05.2020 write uni test for convert data array  and converters
+           List<Document> documentList =  DocumentConverter.convertQueryResults(recordList, new String[]{"all"});
+           LOGGER.trace("leaving findByPath(): found {}", documentList);
+       } else {
+           throw new DocumentNotFoundException(String.format("Document with path %s wasn't found", path));
+       }
+        return null;
     }
 
     @Transactional(readOnly = true)
@@ -770,24 +750,29 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
         }
 
         private static List<Document> convertQueryResultsToModelObjects(List<DocumentsRecord> queryResults) {
-            List<Document> documentEntries = new ArrayList<>();
+//            List<Document> documentEntries = new ArrayList<>();
+//
+//            for (DocumentsRecord queryResult : queryResults) {
+//                Document documentEntry = DocumentConverter.convertQueryResultToModelObject(queryResult);
+//                documentEntries.add(documentEntry);
+//            }
 
-            for (DocumentsRecord queryResult : queryResults) {
-                Document documentEntry = DocumentConverter.convertQueryResultToModelObject(queryResult);
-                documentEntries.add(documentEntry);
-            }
-
-            return documentEntries;
+            return queryResults.stream()
+                    .map(DocumentConverter::convertQueryResultToModelObject)
+                    .collect(Collectors.toList());
         }
 
         private static List<Document> convertQueryResults(List<Record> queryResults, String[] fields) {
-            List<Document> documentEntries = new ArrayList<>();
-
-            for (Record queryResult : queryResults) {
-                documentEntries.add(DocumentConverter.convertQueryResultToModelObject(queryResult, fields));
-            }
-
-            return documentEntries;
+//            List<Document> documentEntries = new ArrayList<>();
+//
+//            for (Record queryResult : queryResults) {
+//                documentEntries.add(DocumentConverter.convertQueryResultToModelObject(queryResult, fields));
+//            }
+//
+//            return documentEntries;
+            return queryResults.stream()
+                    .map(r->DocumentConverter.convertQueryResultToModelObject(r, fields))
+                    .collect(Collectors.toList());
         }
     }
 
