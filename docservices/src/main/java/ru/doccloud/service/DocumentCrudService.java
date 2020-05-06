@@ -18,6 +18,8 @@ import java.util.UUID;
 public interface DocumentCrudService<DocumentDTO> extends CommonService<DocumentDTO> {
 
     public DocumentDTO addToFolder(final DocumentDTO todo, final String id, String user)  throws Exception;
+
+	public DocumentDTO findByPath(final String path);
 //
     List<DocumentDTO> findParents(UUID docId)  throws Exception;
 

@@ -24,19 +24,34 @@ import static org.junit.Assert.assertNotNull;
 @ActiveProfiles("test")
 public class CmisGetObjectByPathTestIT extends CmisTest {
 
-    @Test(expected = CmisInvalidArgumentException.class)
-    public void getObjectByPath_whenPathBlank_thenCmisInvalidArgumentException(){
-        // TODO: 25.04.2020 implement test
-    }
-
-    @Test(expected = CmisInvalidArgumentException.class)
-    public void getObjectByPath_whenInvalidPath_thenCmisInvalidArgumentException(){
-        // TODO: 25.04.2020 implement test
+    @Test
+    public void getObjectByPath_whenPathBlank_thenRootDocReturned(){
+        ObjectData myObject = provider.getObjectService().getObjectByPath(REPOSITORY_NAME, null,
+                "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
+        assertNotNull(myObject);
+        assertEquals(ROOT_ID, myObject.getId());
     }
 
     @Test
+    public void getObjectByPath_whenRootPath_thenRootDocReturned(){
+        ObjectData myObject = provider.getObjectService().getObjectByPath(REPOSITORY_NAME, "/",
+                "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
+        assertNotNull(myObject);
+        assertEquals(ROOT_ID, myObject.getId());
+    }
+
+    @Test(expected = CmisRuntimeException.class)
+    public void getObjectByPath_whenNonExistingPath_thenCmisRuntimeException(){
+        ObjectData myObject = provider.getObjectService().getObjectByPath(REPOSITORY_NAME, "fdsfsfdvxcv",
+                "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
+        assertNotNull(myObject);
+//        assertEquals(ROOT_ID, myObject.getId());
+    }
+//
+    @Test
     public void getObjectByPath_thenObjectReturned(){
-        final String path = "/Test Tenant2/New App/Documents/Test_1";
+//      try to path folder
+        String path = "/child_1/child_name_3/child_folder";
 
             ObjectData myObject = provider.getObjectService().getObjectByPath(REPOSITORY_NAME, path,
                     "*", true, IncludeRelationships.BOTH, "cmis:none", true, true, null);
@@ -44,6 +59,8 @@ public class CmisGetObjectByPathTestIT extends CmisTest {
         assertNotNull(myObject);
         final String expectedObjId = "8c755855-5159-49cf-8ed8-84e1cb30d17f";
         assertEquals(expectedObjId, myObject.getId());
+
+//        path = "/child_1/child_name_3/child_folder/child_doc";
     }
 
 

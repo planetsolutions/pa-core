@@ -38,11 +38,11 @@ public class CmisGetObjectTestIT extends CmisTest {
 
     // TODO: 29.04.2020 add test for objectId = null, for this case cmis will automatically redirected request to getObjectByPath with root path /
 
-    @Before
-    public void setUp() throws SQLException {
-        super.setUp();
-
-    }
+//    @Before
+//    public void setUp() throws SQLException {
+//        super.setUp();
+//
+//    }
 
     @Test
     public void getObjectByZeroID_thenRootDocReturned(){

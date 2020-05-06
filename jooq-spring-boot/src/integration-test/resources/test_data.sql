@@ -98,6 +98,19 @@ id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_
 
 INSERT INTO documents (
 id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type)
+  VALUES (9,'child 3 of child_1','child_name_3','treeroot',NULL,'1e1d16c9-bbd8-4ce3-8d77-28082a8bd59e','b2f54af5-ca24-4724-a971-db1493802bda','folder');
+
+INSERT INTO documents (
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type)
+  VALUES (10,'child folder of child_name_3','child_folder','folder',NULL,'b2f54af5-ca24-4724-a971-db1493802bda','9936c332-f410-487d-9903-7d25083b489a','folder');
+
+INSERT INTO documents (
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type)
+  VALUES (11,'child doc of child_folder','child_doc','document',NULL,'b2f54af5-ca24-4724-a971-db1493802bda','4cf8752a-48ac-4b56-9ddb-585076ce65e0','document');
+
+
+INSERT INTO documents (
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type)
   VALUES (4,'child doc of child 2 of child_1','child_doc_name','document',NULL,'3f4a17ca-2200-4bb0-b7fe-973bd715baf7','c23b6c07-ba50-414c-834e-0b37325f423d','document');
 
 INSERT INTO documents (

@@ -289,6 +289,15 @@ public class RepositoryDocumentCrudService extends AbstractService  implements D
     }
 
     @Override
+    public DocumentDTO findByPath(String path)  {
+        LOGGER.debug("entering findDocumentByPath(path = {})", path);
+        Document document = repository.findByPath(path);
+
+        LOGGER.debug("leaving findDocumentByPath(): found {}", document);
+        return transformer.convert(document, new DocumentDTO());
+    }
+
+    @Override
     public DocumentDTO delete(final UUID id, String type) throws Exception {
         LOGGER.debug("entering delete(id ={})", id);
 
