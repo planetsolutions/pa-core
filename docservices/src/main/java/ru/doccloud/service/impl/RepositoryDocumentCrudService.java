@@ -291,10 +291,11 @@ public class RepositoryDocumentCrudService extends AbstractService  implements D
     @Override
     public List<DocumentDTO> findByPath(String path)  {
         LOGGER.debug("entering findDocumentByPath(path = {})", path);
-        List<Document> documents = repository.findByPath(path);
+        Optional<List<Document>> optionalDocuments = repository.findByPath(path);
 
-        LOGGER.debug("leaving findDocumentByPath(): found {}", documents);
-        return transformer.convertList(documents, DocumentDTO.class);
+        LOGGER.debug("leaving findDocumentByPath(): found {}", optionalDocuments);
+        return transformer.convertList(optionalDocuments.orElseThrow(()-> new DocumentNotFoundException("Document with path not found")), DocumentDTO.class);
+//        return transformer.convertList(documents, DocumentDTO.class);
     }
 
     @Override

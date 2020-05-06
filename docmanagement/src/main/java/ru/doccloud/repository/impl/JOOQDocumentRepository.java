@@ -9,8 +9,6 @@ import static ru.doccloud.repository.util.DataQueryHelper.*;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,7 +37,6 @@ import ru.doccloud.document.jooq.db.tables.Documents;
 import ru.doccloud.document.jooq.db.tables.Links;
 import ru.doccloud.document.jooq.db.tables.records.DocumentsRecord;
 import ru.doccloud.document.jooq.db.tables.records.LinksRecord;
-import ru.doccloud.document.jooq.db.tables.records.SystemRecord;
 import ru.doccloud.document.model.Document;
 import ru.doccloud.document.model.Link;
 import ru.doccloud.document.model.QueryParam;
@@ -383,7 +380,8 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
     }
 
     @Override
-    public List<Document> findByPath(String path) {
+    @Transactional(readOnly = true)
+    public Optional<List<Document>> findByPath(String path) {
         LOGGER.trace("entering findByPath(path={})", path);
 
         final String docName = StringUtils.substringAfterLast(path, "/");
@@ -448,10 +446,11 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
 // TODO: 06.05.2020 write uni test for convert data array  and converters
            List<Document> documentList =  DocumentConverter.convertQueryResults(recordList, new String[]{"all"});
            LOGGER.trace("leaving findByPath(): found {}", documentList);
+           return Optional.ofNullable(documentList);
        } else {
-           throw new DocumentNotFoundException(String.format("Document with path %s wasn't found", path));
+           return Optional.empty();
+//           throw new DocumentNotFoundException(String.format("Document with path %s wasn't found", path));
        }
-        return null;
     }
 
     @Transactional(readOnly = true)
