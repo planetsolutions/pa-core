@@ -32,7 +32,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.doccloud.common.exception.DocumentNotFoundException;
 import ru.doccloud.common.service.DateTimeService;
-import ru.doccloud.common.util.JsonNodeParser;
 import ru.doccloud.document.jooq.db.tables.Documents;
 import ru.doccloud.document.jooq.db.tables.Links;
 import ru.doccloud.document.jooq.db.tables.records.DocumentsRecord;
@@ -41,6 +40,7 @@ import ru.doccloud.document.model.Document;
 import ru.doccloud.document.model.Link;
 import ru.doccloud.document.model.QueryParam;
 import ru.doccloud.repository.DocumentRepository;
+import ru.doccloud.repository.util.DocumentConverter;
 
 /**
  * @author Andrey Kadnikov
@@ -268,8 +268,7 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
         LOGGER.trace("entering findAllByType(type={}, fields={}, pageable={}, query={})", type, fields, pageable, query);
 
         ArrayList<SelectField<?>> selectedFields = new ArrayList<SelectField<?>>();
-        //selectedFields.add(DOCUMENTS.ID);
-        selectedFields=selectedDefault(selectedFields,DOCUMENTS);
+        selectedDefault(selectedFields);
         if (fields!=null){
             if (fields[0].equals("all")){
                 selectedFields.add(DOCUMENTS.DATA);
@@ -307,33 +306,6 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
         return new PageImpl<>(documentEntries, pageable, totalCount);
 
     }
-
-    private ArrayList<SelectField<?>> selectedDefault(ArrayList<SelectField<?>> selectedFields, Documents documents) {
-    	selectedFields.add(DOCUMENTS.SYS_TITLE);
-        selectedFields.add(DOCUMENTS.SYS_AUTHOR);
-        selectedFields.add(DOCUMENTS.SYS_DATE_CR);
-        selectedFields.add(DOCUMENTS.SYS_DATE_MOD);
-        selectedFields.add(DOCUMENTS.SYS_DESC);
-        selectedFields.add(DOCUMENTS.SYS_MODIFIER);
-        selectedFields.add(DOCUMENTS.SYS_TYPE);
-        selectedFields.add(DOCUMENTS.SYS_BASE_TYPE);
-        selectedFields.add(DOCUMENTS.SYS_UUID);
-        selectedFields.add(DOCUMENTS.SYS_PARENT_UUID);
-        selectedFields.add(DOCUMENTS.SYS_FILE_NAME);
-        selectedFields.add(DOCUMENTS.SYS_FILE_PATH);
-        selectedFields.add(DOCUMENTS.SYS_FILE_STORAGE);
-        selectedFields.add(DOCUMENTS.SYS_FILE_MIME_TYPE);
-        selectedFields.add(DOCUMENTS.SYS_FILE_LENGTH);
-        selectedFields.add(DOCUMENTS.SYS_ACL);
-        selectedFields.add(DOCUMENTS.SYS_SOURCE_ID);
-        selectedFields.add(DOCUMENTS.SYS_SOURCE_PACKAGE);
-        selectedFields.add(DOCUMENTS.SYS_VERSION);
-        selectedFields.add(DOCUMENTS.VER_ISLAST);
-        selectedFields.add(DOCUMENTS.VER_PARENT_UUID);
-        selectedFields.add(DOCUMENTS.VER_SERIES_UUID);
-        selectedFields.add(DOCUMENTS.VER_COMMENT);
-		return selectedFields;
-	}
 
 	@Transactional(readOnly = true)
     @Override
@@ -386,18 +358,14 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
 
         final String docName = StringUtils.substringAfterLast(path, "/");
 
-        final String parentFolderPath = path.startsWith("/") ? StringUtils.substringAfter(path,"/") : path;
-
-        LOGGER.trace("findByPath(): docName is {} , parentFolderPath is {}", docName, parentFolderPath);
         Field<String> pathToParent = DOCUMENTS.SYS_TITLE.as("path");
 
-
-        ArrayList<SelectField<?>> selectedFields = new ArrayList<SelectField<?>>();
-        selectedDefault(selectedFields, DOCUMENTS);
+        ArrayList<SelectField<?>> selectedFields = new ArrayList<>();
+        selectedDefault(selectedFields);
         selectedFields.add(pathToParent);
 
-        ArrayList<SelectField<?>> selectedFieldsUnion = new ArrayList<SelectField<?>>();
-        selectedDefault(selectedFieldsUnion, DOCUMENTS);
+        ArrayList<SelectField<?>> selectedFieldsUnion = new ArrayList<>();
+        selectedDefault(selectedFieldsUnion);
         selectedFieldsUnion.add(DOCUMENTS.SYS_TITLE.concat("/").concat(pathToParent));
 
         SelectQuery<?> folderPathQuery = jooq.withRecursive("folderPath")
@@ -427,6 +395,8 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
 
         LOGGER.trace("findByPath(): found {}", queryResult);
 
+        final String parentFolderPath = path.startsWith("/") ? StringUtils.substringAfter(path,"/") : path;
+
         boolean isFolderFound = queryResult.stream().anyMatch(r -> r.get("path").equals(parentFolderPath));
 
         if(isFolderFound) {
@@ -434,8 +404,7 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
 
             Function<String, Record> byName = name -> queryResult.stream()
                     .filter(r -> r.get("path").equals(name))
-                    .filter(r -> !needToFilterDocType || "document".equals(((Record) r).get("sys_base_type")))
-//                   .filter(r -> r.get("path").equals(name))
+                    .filter(r -> !needToFilterDocType || "document".equals(r.get("sys_base_type")))
                     .findFirst().orElse(null);
 
             Record foundDoc = byName.apply(docName);
@@ -696,92 +665,6 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
     }
 
 
-    private static class DocumentConverter{
-        private static Document convertQueryResultToModelObject(Record queryResult, String[] fields) {
-            return  Document.getBuilder(queryResult.getValue(DOCUMENTS.SYS_TITLE))
-                    .description(queryResult.getValue(DOCUMENTS.SYS_DESC))
-                    .baseType(queryResult.getValue(DOCUMENTS.SYS_BASE_TYPE))
-                    .type(queryResult.getValue(DOCUMENTS.SYS_TYPE))
-                    .id(queryResult.getValue(DOCUMENTS.SYS_UUID))
-                    .creationTime(queryResult.getValue(DOCUMENTS.SYS_DATE_CR))
-                    .modificationTime(queryResult.getValue(DOCUMENTS.SYS_DATE_MOD))
-                    .author(queryResult.getValue(DOCUMENTS.SYS_AUTHOR))
-                    .modifier(queryResult.getValue(DOCUMENTS.SYS_MODIFIER))
-                    .filePath(queryResult.getValue(DOCUMENTS.SYS_FILE_PATH))
-                    .fileMimeType(queryResult.getValue(DOCUMENTS.SYS_FILE_MIME_TYPE))
-                    .fileLength(queryResult.getValue(DOCUMENTS.SYS_FILE_LENGTH))
-                    .fileName(queryResult.getValue(DOCUMENTS.SYS_FILE_NAME))
-                    .fileStorage(queryResult.getValue(DOCUMENTS.SYS_FILE_STORAGE))
-                    .docVersion(queryResult.getValue(DOCUMENTS.SYS_VERSION))
-                    .uuid(queryResult.getValue(DOCUMENTS.SYS_UUID))
-                    .parent(queryResult.getValue(DOCUMENTS.SYS_PARENT_UUID))
-                    .acl(JsonNodeParser.buildObjectNode(queryResult, "sys_acl"))
-                    .sourceId(queryResult.getValue(DOCUMENTS.SYS_SOURCE_ID))
-                    .sourcePackage(queryResult.getValue(DOCUMENTS.SYS_SOURCE_PACKAGE))
-                    .versionParent(queryResult.getValue(DOCUMENTS.VER_PARENT_UUID))
-                    .versionSeries(queryResult.getValue(DOCUMENTS.VER_SERIES_UUID))
-                    .lastVersion(queryResult.getValue(DOCUMENTS.VER_ISLAST))
-                    .versionComment(queryResult.getValue(DOCUMENTS.VER_COMMENT))
-                    .data(JsonNodeParser.buildObjectNode(queryResult, fields))
-                    .build();
-        }
-
-
-        private static Document convertQueryResultToModelObject(DocumentsRecord queryResult) {
-            return Document.getBuilder(queryResult.getSysTitle())
-                    .creationTime(queryResult.getSysDateCr())
-                    .description(queryResult.getSysDesc())
-                    .baseType(queryResult.getSysBaseType())
-                    .type(queryResult.getSysType())
-                    .data(queryResult.getData())
-                    .id(queryResult.getSysUuid())
-                    .modificationTime(queryResult.getSysDateMod())
-                    .author(queryResult.getSysAuthor())
-                    .modifier(queryResult.getSysModifier())
-                    .filePath(queryResult.getSysFilePath())
-                    .fileMimeType(queryResult.getSysFileMimeType())
-                    .fileLength(queryResult.getSysFileLength())
-                    .fileStorage(queryResult.getSysFileStorage())
-                    .fileName(queryResult.getSysFileName())
-                    .docVersion(queryResult.getSysVersion())
-                    .parent(queryResult.getSysParentUuid())
-                    .uuid(queryResult.getSysUuid())
-                    .acl(queryResult.getSysAcl())
-                    .sourceId(queryResult.getSysSourceId())
-                    .sourcePackage(queryResult.getSysSourcePackage())
-                    .versionParent(queryResult.getVerParentUuid())
-                    .versionSeries(queryResult.getVerSeriesUuid())
-                    .lastVersion(queryResult.getVerIslast())
-                    .versionComment(queryResult.getVerComment())
-                    .build();
-        }
-
-        private static List<Document> convertQueryResultsToModelObjects(List<DocumentsRecord> queryResults) {
-//            List<Document> documentEntries = new ArrayList<>();
-//
-//            for (DocumentsRecord queryResult : queryResults) {
-//                Document documentEntry = DocumentConverter.convertQueryResultToModelObject(queryResult);
-//                documentEntries.add(documentEntry);
-//            }
-
-            return queryResults.stream()
-                    .map(DocumentConverter::convertQueryResultToModelObject)
-                    .collect(Collectors.toList());
-        }
-
-        private static List<Document> convertQueryResults(List<Record> queryResults, String[] fields) {
-//            List<Document> documentEntries = new ArrayList<>();
-//
-//            for (Record queryResult : queryResults) {
-//                documentEntries.add(DocumentConverter.convertQueryResultToModelObject(queryResult, fields));
-//            }
-//
-//            return documentEntries;
-            return queryResults.stream()
-                    .map(r->DocumentConverter.convertQueryResultToModelObject(r, fields))
-                    .collect(Collectors.toList());
-        }
-    }
 
     @Override
     public Page<Document> findAllByParentAndType(UUID parentid, String type, Pageable pageable) {
@@ -874,7 +757,7 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
 	@Override
 	public List<Document> findAllByIds(UUID[] ids, String[] fields) {
 		ArrayList<SelectField<?>> selectedFields = new ArrayList<SelectField<?>>();
-		selectedFields=selectedDefault(selectedFields,DOCUMENTS);
+		selectedDefault(selectedFields);
 		if (fields!=null){
             if (fields[0].equals("all")){
                 selectedFields.add(DOCUMENTS.DATA);
@@ -905,6 +788,32 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
         cond = extendConditions(cond, queryParams, DOCUMENTS, DOCUMENTS.DATA);
         return findTotalCountByType(cond, DOCUMENTS);
 	}
+
+    private void selectedDefault(ArrayList<SelectField<?>> selectedFields) {
+        selectedFields.add(DOCUMENTS.SYS_TITLE);
+        selectedFields.add(DOCUMENTS.SYS_AUTHOR);
+        selectedFields.add(DOCUMENTS.SYS_DATE_CR);
+        selectedFields.add(DOCUMENTS.SYS_DATE_MOD);
+        selectedFields.add(DOCUMENTS.SYS_DESC);
+        selectedFields.add(DOCUMENTS.SYS_MODIFIER);
+        selectedFields.add(DOCUMENTS.SYS_TYPE);
+        selectedFields.add(DOCUMENTS.SYS_BASE_TYPE);
+        selectedFields.add(DOCUMENTS.SYS_UUID);
+        selectedFields.add(DOCUMENTS.SYS_PARENT_UUID);
+        selectedFields.add(DOCUMENTS.SYS_FILE_NAME);
+        selectedFields.add(DOCUMENTS.SYS_FILE_PATH);
+        selectedFields.add(DOCUMENTS.SYS_FILE_STORAGE);
+        selectedFields.add(DOCUMENTS.SYS_FILE_MIME_TYPE);
+        selectedFields.add(DOCUMENTS.SYS_FILE_LENGTH);
+        selectedFields.add(DOCUMENTS.SYS_ACL);
+        selectedFields.add(DOCUMENTS.SYS_SOURCE_ID);
+        selectedFields.add(DOCUMENTS.SYS_SOURCE_PACKAGE);
+        selectedFields.add(DOCUMENTS.SYS_VERSION);
+        selectedFields.add(DOCUMENTS.VER_ISLAST);
+        selectedFields.add(DOCUMENTS.VER_PARENT_UUID);
+        selectedFields.add(DOCUMENTS.VER_SERIES_UUID);
+        selectedFields.add(DOCUMENTS.VER_COMMENT);
+    }
 
 
 }

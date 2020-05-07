@@ -8,11 +8,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.doccloud.common.CommonTest;
-import ru.doccloud.common.exception.DocumentNotFoundException;
 import ru.doccloud.document.model.Document;
 import ru.doccloud.webapp.WebApplication;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
