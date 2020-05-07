@@ -429,33 +429,40 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
 
         boolean isFolderFound = queryResult.stream().anyMatch(r -> r.get("path").equals(parentFolderPath));
 
-       if(isFolderFound) {
+        if(isFolderFound) {
+            boolean needToFilterDocType = queryResult.stream().map(r -> r.get("path")).filter(docName::equals).limit(queryResult.size()).count() > 1;
+
 
 //           boolean needToFilterDocType = list..map(MyBean::getTitle).filter("some"::equals).unique().limit(2).count() > 1;
 //           return list.filter(b -> "some".equals(b.title)).filter(b -> !needToFilterDocType || "Document".equals(b.type)).findAny().orElse(null);
 
-           Function<String, Record> byName = name -> queryResult.stream()
-                   .filter(r -> r.get("path").equals(name))
-                   .findFirst().orElse(null);
-           Record foundDoc = byName.apply(docName);
+            Function<String, Record> byName = name -> queryResult.stream()
+                    .filter(r -> r.get("path").equals(name))
+                    .filter(r -> !needToFilterDocType || "document".equals(((Record) r).get("sys_base_type")))
+//                   .filter(r -> r.get("path").equals(name))
+                    .findFirst().orElse(null);
 
-           Function<UUID, Record> byParentUUID = uuid -> queryResult.stream().filter(r -> r.get("sys_uuid").equals(uuid)).findFirst().orElse(null);
+//           Function<String, Record> byName = name -> queryResult.stream()
+//                   .filter(r -> r.get("path").equals(name))
+//                   .findFirst().orElse(null);
+            Record foundDoc = byName.apply(docName);
 
-           Record parentDoc = byParentUUID.apply((UUID) foundDoc.get("sys_parent_uuid"));
-           final String[] fields = new String[]{"all"};
+            Function<UUID, Record> byParentUUID = uuid -> queryResult.stream().filter(r -> r.get("sys_uuid").equals(uuid)).findFirst().orElse(null);
 
-           List<Document> documentList = Stream.of(foundDoc, parentDoc)
-                   .limit(queryResult.size())
-                   .filter(Objects::nonNull)
-                   .map(r->DocumentConverter.convertQueryResultToModelObject(r, fields))
-                   .collect(Collectors.toList());
+            Record parentDoc = byParentUUID.apply((UUID) foundDoc.get("sys_parent_uuid"));
+            final String[] fields = new String[]{"all"};
 
-           LOGGER.trace("leaving findByPath(): found {}", documentList);
-           return Optional.of(documentList);
-       } else {
-           return Optional.empty();
-//           throw new DocumentNotFoundException(String.format("Document with path %s wasn't found", path));
-       }
+            List<Document> documentList = Stream.of(foundDoc, parentDoc)
+                    .limit(queryResult.size())
+                    .filter(Objects::nonNull)
+                    .map(r->DocumentConverter.convertQueryResultToModelObject(r, fields))
+                    .collect(Collectors.toList());
+
+            LOGGER.trace("leaving findByPath(): found {}", documentList);
+            return Optional.of(documentList);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Transactional(readOnly = true)
