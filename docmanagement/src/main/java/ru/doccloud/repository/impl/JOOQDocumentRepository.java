@@ -432,25 +432,20 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
         if(isFolderFound) {
             boolean needToFilterDocType = queryResult.stream().map(r -> r.get("path")).filter(docName::equals).limit(queryResult.size()).count() > 1;
 
-
-//           boolean needToFilterDocType = list..map(MyBean::getTitle).filter("some"::equals).unique().limit(2).count() > 1;
-//           return list.filter(b -> "some".equals(b.title)).filter(b -> !needToFilterDocType || "Document".equals(b.type)).findAny().orElse(null);
-
             Function<String, Record> byName = name -> queryResult.stream()
                     .filter(r -> r.get("path").equals(name))
                     .filter(r -> !needToFilterDocType || "document".equals(((Record) r).get("sys_base_type")))
 //                   .filter(r -> r.get("path").equals(name))
                     .findFirst().orElse(null);
 
-//           Function<String, Record> byName = name -> queryResult.stream()
-//                   .filter(r -> r.get("path").equals(name))
-//                   .findFirst().orElse(null);
             Record foundDoc = byName.apply(docName);
 
             Function<UUID, Record> byParentUUID = uuid -> queryResult.stream().filter(r -> r.get("sys_uuid").equals(uuid)).findFirst().orElse(null);
 
             Record parentDoc = byParentUUID.apply((UUID) foundDoc.get("sys_parent_uuid"));
             final String[] fields = new String[]{"all"};
+
+            LOGGER.trace("findByPath(): found doc {} with parent {}", foundDoc, parentDoc);
 
             List<Document> documentList = Stream.of(foundDoc, parentDoc)
                     .limit(queryResult.size())
@@ -461,6 +456,7 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
             LOGGER.trace("leaving findByPath(): found {}", documentList);
             return Optional.of(documentList);
         } else {
+            LOGGER.trace("leaving findByPath(): document with path {} was not found", path);
             return Optional.empty();
         }
     }

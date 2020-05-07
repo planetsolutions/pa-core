@@ -1,4 +1,4 @@
-package service;
+package ru.doccloud.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +9,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.doccloud.common.CommonTest;
 import ru.doccloud.common.exception.DocumentNotFoundException;
-import ru.doccloud.document.model.Document;
-import ru.doccloud.service.DocumentCrudService;
 import ru.doccloud.service.document.dto.DocumentDTO;
 import ru.doccloud.webapp.WebApplication;
 
@@ -56,11 +54,20 @@ public class DocumentServiceTestIT extends CommonTest {
     @Test
     public void getDocByPath_whenTwoDocsFound_thenDocumentTypeReturned(){
 
-        String path = "/child_1/child_name_3/child_folder";
+        String path = "/child_1/child_name/child_same_name_1";
 
-        List<DocumentDTO> document = documentService.findByPath(path);
+        List<DocumentDTO> documents = documentService.findByPath(path);
 
-        assertNotNull(document);
-        throw new IllegalStateException("hasn't imlmented yet");
+        assertNotNull(documents);
+        assertEquals(2, documents.size());
+        assertEquals("child_same_name_1", documents.get(0).getTitle());
+        assertEquals("document", documents.get(0).getBaseType());
+        assertEquals("0841d456-0eea-4409-8e87-d80707c36a89", documents.get(0).getUuid().toString());
+        assertEquals("3f4a17ca-2200-4bb0-b7fe-973bd715baf7", documents.get(0).getParent().toString());
+
+        assertEquals("child_name", documents.get(1).getTitle());
+        assertEquals("folder", documents.get(1).getBaseType());
+        assertEquals("3f4a17ca-2200-4bb0-b7fe-973bd715baf7", documents.get(1).getUuid().toString());
+        assertEquals("1e1d16c9-bbd8-4ce3-8d77-28082a8bd59e", documents.get(1).getParent().toString());
     }
 }
