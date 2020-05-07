@@ -12,6 +12,7 @@ import ru.doccloud.common.exception.DocumentNotFoundException;
 import ru.doccloud.document.model.Document;
 import ru.doccloud.webapp.WebApplication;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,17 +57,17 @@ public class DocumentRepositoryTestIT extends CommonTest {
         assertEquals("1e1d16c9-bbd8-4ce3-8d77-28082a8bd59e", documents.get(1).getParent().toString());
     }
 
-//    @Test
-//    public void getDocByPath_whenTwoDocsFound_thenDocumentTypeReturned(){
-//
-//        String path = "/child_1/child_name_3/child_folder";
-//
-//        Document document = documentRepository.findByPath(path);
-//
-//        assertNotNull(document);
+    @Test
+    public void getDocByPath_whenTwoDocsFound_thenDocumentTypeReturned(){
+
+        String path = "/child_1/child_name/child_same_name_1";
+
+        Optional<List<Document>> documents = documentRepository.findByPath(path);
+
+        assertNotNull(documents);
 //        assertEquals("document", document.getBaseType());
-//
-//        // TODO: 04.05.2020 add testCriteria
-//    }
+        throw new IllegalStateException("Hasn't implemented yet");
+        // TODO: 04.05.2020 add testCriteria
+    }
 
 }

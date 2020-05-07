@@ -63,7 +63,7 @@ public class JsonNodeParser {
 			    LOGGER.debug("field node {} is null", field);
             }
 		} catch (IllegalArgumentException | IOException e) {
-			LOGGER.error("getValueJsonNode(): exception {}", e.getMessage());
+			LOGGER.error("buildObjectNode(): exception {}", e.getMessage());
 		}
 
         return data;
@@ -90,7 +90,7 @@ public class JsonNodeParser {
                         }
         			}
 				} catch (IllegalArgumentException | IOException e) {
-					LOGGER.error("getValueJsonNode(): exception {}", e.getMessage());
+					LOGGER.error("buildObjectNode(): exception {}", e.getMessage());
 				}
 			}else{
 	            for (String field : fields) {
@@ -98,7 +98,7 @@ public class JsonNodeParser {
 	                    try {
 	                        data.put(field,mapper.readTree(queryResult.getValue(field).toString()));
 	                    } catch (IllegalArgumentException | IOException e) {
-							LOGGER.error("getValueJsonNode(): exception {}", e.getMessage());
+							LOGGER.error("buildObjectNode(): exception {}", e.getMessage());
 	                    }
 	                }
 	            }

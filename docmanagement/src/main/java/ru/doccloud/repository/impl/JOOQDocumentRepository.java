@@ -405,7 +405,7 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
                         select(selectedFields)
                                 .from(DOCUMENTS)
                                 .where(DOCUMENTS.SYS_TITLE.equal(docName))
-                                .unionAll(
+                                .union(
                                         select(
                                                 selectedFieldsUnion
                                         )
@@ -430,23 +430,28 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
         boolean isFolderFound = queryResult.stream().anyMatch(r -> r.get("path").equals(parentFolderPath));
 
        if(isFolderFound) {
-           Function<String, Record> byName = name -> queryResult.stream().filter(r -> r.get("path").equals(name)).findFirst().orElse(null);
+
+//           boolean needToFilterDocType = list..map(MyBean::getTitle).filter("some"::equals).unique().limit(2).count() > 1;
+//           return list.filter(b -> "some".equals(b.title)).filter(b -> !needToFilterDocType || "Document".equals(b.type)).findAny().orElse(null);
+
+           Function<String, Record> byName = name -> queryResult.stream()
+                   .filter(r -> r.get("path").equals(name))
+                   .findFirst().orElse(null);
            Record foundDoc = byName.apply(docName);
 
            Function<UUID, Record> byParentUUID = uuid -> queryResult.stream().filter(r -> r.get("sys_uuid").equals(uuid)).findFirst().orElse(null);
 
            Record parentDoc = byParentUUID.apply((UUID) foundDoc.get("sys_parent_uuid"));
+           final String[] fields = new String[]{"all"};
 
-           List<Record> recordList = Stream.of(foundDoc, parentDoc)
+           List<Document> documentList = Stream.of(foundDoc, parentDoc)
                    .limit(queryResult.size())
                    .filter(Objects::nonNull)
+                   .map(r->DocumentConverter.convertQueryResultToModelObject(r, fields))
                    .collect(Collectors.toList());
-           LOGGER.trace("findByPath(): filtered list {}",  recordList);
 
-// TODO: 06.05.2020 write uni test for convert data array  and converters
-           List<Document> documentList =  DocumentConverter.convertQueryResults(recordList, new String[]{"all"});
            LOGGER.trace("leaving findByPath(): found {}", documentList);
-           return Optional.ofNullable(documentList);
+           return Optional.of(documentList);
        } else {
            return Optional.empty();
 //           throw new DocumentNotFoundException(String.format("Document with path %s wasn't found", path));

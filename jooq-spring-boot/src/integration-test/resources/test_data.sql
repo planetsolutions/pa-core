@@ -96,20 +96,7 @@ INSERT INTO documents (
 id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type)
   VALUES (3,'child 2 of child_1','child_name','treeroot',NULL,'1e1d16c9-bbd8-4ce3-8d77-28082a8bd59e','e3fefcc7-d6f1-479f-a844-4b8546753042','folder');
 
-INSERT INTO documents (
-id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
-  VALUES (9,'child 3 of child_1','child_name_3','treeroot',NULL,'1e1d16c9-bbd8-4ce3-8d77-28082a8bd59e','b2f54af5-ca24-4724-a971-db1493802bda','folder',
-  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
 
-INSERT INTO documents (
-id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
-  VALUES (10,'child folder of child_name_3','child_folder','folder',NULL,'b2f54af5-ca24-4724-a971-db1493802bda','9936c332-f410-487d-9903-7d25083b489a','folder',
-  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
-
-INSERT INTO documents (
-id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
-  VALUES (11,'child doc of child_folder','child_doc','document',NULL,'b2f54af5-ca24-4724-a971-db1493802bda','4cf8752a-48ac-4b56-9ddb-585076ce65e0','document',
-  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
 
 
 INSERT INTO documents (
@@ -129,12 +116,26 @@ id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_
 
 INSERT INTO documents (
 id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
-  VALUES (7,'child_name_1_1_1','child_doc_name_1','document',NULL,'3f4a17ca-2200-4bb0-b7fe-973bd715baf7','0841d456-0eea-4409-8e87-d80707c36a89','document',
+  VALUES (7,'child_name_1_1_1','child_same_name_1','document',NULL,'3f4a17ca-2200-4bb0-b7fe-973bd715baf7','0841d456-0eea-4409-8e87-d80707c36a89','document',
   '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
 
 INSERT INTO documents (
 id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
-  VALUES (8,'child folder with the same name as document','child_doc_name_1','folder',NULL,'3f4a17ca-2200-4bb0-b7fe-973bd715baf7','95e989d8-98cd-4cfd-a9be-352749e95899','folder',
+  VALUES (8,'child folder with the same name as document','child_same_name_1','folder',NULL,'3f4a17ca-2200-4bb0-b7fe-973bd715baf7','95e989d8-98cd-4cfd-a9be-352749e95899','folder',
   '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
 
 
+INSERT INTO documents (
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
+  VALUES (9,'child 3 of child_1','child_name_3','treeroot',NULL,'1e1d16c9-bbd8-4ce3-8d77-28082a8bd59e','b2f54af5-ca24-4724-a971-db1493802bda','folder',
+  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
+
+INSERT INTO documents (
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
+  VALUES (10,'child folder of child_name_3','child_folder','folder',NULL,'b2f54af5-ca24-4724-a971-db1493802bda','9936c332-f410-487d-9903-7d25083b489a','folder',
+  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
+
+INSERT INTO documents (
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
+  VALUES (11,'child doc of child_folder','child_doc','document',NULL,'b2f54af5-ca24-4724-a971-db1493802bda','4cf8752a-48ac-4b56-9ddb-585076ce65e0','document',
+  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');

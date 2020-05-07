@@ -61,8 +61,6 @@ public class DocumentServiceTestIT extends CommonTest {
         List<DocumentDTO> document = documentService.findByPath(path);
 
         assertNotNull(document);
-//        assertEquals("document", document.getBaseType());
-
-        // TODO: 04.05.2020 add testCriteria
+        throw new IllegalStateException("hasn't imlmented yet");
     }
 }
