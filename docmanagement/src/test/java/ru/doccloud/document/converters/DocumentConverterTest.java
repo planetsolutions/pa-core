@@ -13,7 +13,9 @@ import ru.doccloud.repository.util.DocumentConverter;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static ru.doccloud.document.jooq.db.tables.Documents.DOCUMENTS;
 
 public class DocumentConverterTest {
@@ -22,7 +24,7 @@ public class DocumentConverterTest {
     MockConnection connection = new MockConnection(provider);
 
     @Test
-    public void convertRecordToModelObjectTest(){
+    public void convertRecordToModelObject_whenRecordNotNUll_thenDocumentCreated(){
 
         DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
 
@@ -36,11 +38,19 @@ public class DocumentConverterTest {
 
         assertNotNull(document);
 
-        throw new IllegalStateException("hasn't implemented yet");
+        String expectedTitle = "title0";
+        String expectedDesc = "description0";
+        String expectedType = "document0";
+
+        assertEquals(expectedTitle, document.getTitle());
+        assertEquals(expectedDesc, document.getDescription());
+        assertEquals(expectedType, document.getBaseType());
+
+        // TODO: 5/8/20 add  criterias for all fields
     }
 
     @Test
-    public void convertRecordsToModelObjectTest(){
+    public void convertRecordsToModelObject_RecordsFound_thenListDocsCreated(){
 
         DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
 
@@ -53,8 +63,22 @@ public class DocumentConverterTest {
         List<Document> documents = DocumentConverter.convertQueryResults( queryResults, fields);
 
         assertNotNull(documents);
+        assertEquals(5, documents.size());
 
-        throw new IllegalStateException("hasn't implemented yet");
+        String expectedTitle = "title";
+        String expectedDesc = "description";
+        String expectedType = "document";
+
+        for(int i =0; i < documents.size()-1; i++){
+
+            Document document = documents.get(i);
+            assertEquals(expectedTitle+i, document.getTitle());
+            assertEquals(expectedDesc+i, document.getDescription());
+            assertEquals(expectedType+i, document.getBaseType());
+        }
+
+        // TODO: 5/8/20 add test criterias for all fields
+
     }
 
 
@@ -72,7 +96,15 @@ public class DocumentConverterTest {
 
         assertNotNull(document);
 
-        throw new IllegalStateException("hasn't implemented yet");
+        String expectedTitle = "title0";
+        String expectedDesc = "description0";
+        String expectedType = "document0";
+
+        assertEquals(expectedTitle, document.getTitle());
+        assertEquals(expectedDesc, document.getDescription());
+        assertEquals(expectedType, document.getBaseType());
+
+        // TODO: 5/8/20 add  criterias for all fields
     }
 
     @Test
@@ -88,7 +120,21 @@ public class DocumentConverterTest {
 
         assertNotNull(documents);
 
-        throw new IllegalStateException("hasn't implemented yet");
+        assertEquals(5, documents.size());
+
+        String expectedTitle = "title";
+        String expectedDesc = "description";
+        String expectedType = "document";
+
+        for(int i =0; i < documents.size()-1; i++){
+
+            Document document = documents.get(i);
+            assertEquals(expectedTitle+i, document.getTitle());
+            assertEquals(expectedDesc+i, document.getDescription());
+            assertEquals(expectedType+i, document.getBaseType());
+        }
+
+        // TODO: 5/8/20 add test criterias for all fields
     }
 
 
