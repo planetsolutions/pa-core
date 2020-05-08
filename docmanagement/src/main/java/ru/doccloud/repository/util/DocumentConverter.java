@@ -30,14 +30,14 @@ public class DocumentConverter {
                 .docVersion(queryResult.getValue(DOCUMENTS.SYS_VERSION))
                 .uuid(queryResult.getValue(DOCUMENTS.SYS_UUID))
                 .parent(queryResult.getValue(DOCUMENTS.SYS_PARENT_UUID))
-                .acl(JsonNodeParser.buildObjectNode(queryResult, "sys_acl"))
+                .acl(JsonNodeParser.buildObjectNodeFromRecord(queryResult, "sys_acl"))
                 .sourceId(queryResult.getValue(DOCUMENTS.SYS_SOURCE_ID))
                 .sourcePackage(queryResult.getValue(DOCUMENTS.SYS_SOURCE_PACKAGE))
                 .versionParent(queryResult.getValue(DOCUMENTS.VER_PARENT_UUID))
                 .versionSeries(queryResult.getValue(DOCUMENTS.VER_SERIES_UUID))
                 .lastVersion(queryResult.getValue(DOCUMENTS.VER_ISLAST))
                 .versionComment(queryResult.getValue(DOCUMENTS.VER_COMMENT))
-                .data(JsonNodeParser.buildObjectNode(queryResult, fields))
+                .data(JsonNodeParser.buildObjectNodeFromRecord(queryResult, fields))
                 .build();
     }
 

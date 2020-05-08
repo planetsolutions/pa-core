@@ -45,7 +45,7 @@ public class JsonNodeParser {
     }
 
     // TODO: 06.05.2020 add unit test
-    public static ObjectNode buildObjectNode(Record queryResult, String field){
+    public static ObjectNode buildObjectNodeFromRecord(Record queryResult, String field){
         ObjectNode data = JsonNodeFactory.instance.objectNode();
         ObjectMapper mapper = new ObjectMapper();
 		try {
@@ -63,14 +63,14 @@ public class JsonNodeParser {
 			    LOGGER.debug("field node {} is null", field);
             }
 		} catch (IllegalArgumentException | IOException e) {
-			LOGGER.error("buildObjectNode(): exception {}", e.getMessage());
+			LOGGER.error("buildObjectNodeFromRecord(): exception {}", e.getMessage());
 		}
 
         return data;
     }
 
     // TODO: 06.05.2020 add unit test
-    public static ObjectNode buildObjectNode(Record queryResult, String[] fields){
+    public static ObjectNode buildObjectNodeFromRecord(Record queryResult, String[] fields){
         ObjectNode data = JsonNodeFactory.instance.objectNode();
         ObjectMapper mapper = new ObjectMapper();
         if (fields!=null && fields.length >0){
@@ -90,7 +90,7 @@ public class JsonNodeParser {
                         }
         			}
 				} catch (IllegalArgumentException | IOException e) {
-					LOGGER.error("buildObjectNode(): exception {}", e.getMessage());
+					LOGGER.error("buildObjectNodeFromRecord(): exception {}", e.getMessage());
 				}
 			}else{
 	            for (String field : fields) {
@@ -98,7 +98,7 @@ public class JsonNodeParser {
 	                    try {
 	                        data.put(field,mapper.readTree(queryResult.getValue(field).toString()));
 	                    } catch (IllegalArgumentException | IOException e) {
-							LOGGER.error("buildObjectNode(): exception {}", e.getMessage());
+							LOGGER.error("buildObjectNodeFromRecord(): exception {}", e.getMessage());
 	                    }
 	                }
 	            }

@@ -93,31 +93,4 @@ public class TestDataProvider implements MockDataProvider {
 
         return node;
     }
-
-
-    private void selectedDefault(ArrayList<SelectField<?>> selectedFields) {
-        selectedFields.add(DOCUMENTS.SYS_TITLE);
-        selectedFields.add(DOCUMENTS.SYS_AUTHOR);
-        selectedFields.add(DOCUMENTS.SYS_DATE_CR);
-        selectedFields.add(DOCUMENTS.SYS_DATE_MOD);
-        selectedFields.add(DOCUMENTS.SYS_DESC);
-        selectedFields.add(DOCUMENTS.SYS_MODIFIER);
-        selectedFields.add(DOCUMENTS.SYS_TYPE);
-        selectedFields.add(DOCUMENTS.SYS_BASE_TYPE);
-        selectedFields.add(DOCUMENTS.SYS_UUID);
-        selectedFields.add(DOCUMENTS.SYS_PARENT_UUID);
-        selectedFields.add(DOCUMENTS.SYS_FILE_NAME);
-        selectedFields.add(DOCUMENTS.SYS_FILE_PATH);
-        selectedFields.add(DOCUMENTS.SYS_FILE_STORAGE);
-        selectedFields.add(DOCUMENTS.SYS_FILE_MIME_TYPE);
-        selectedFields.add(DOCUMENTS.SYS_FILE_LENGTH);
-        selectedFields.add(DOCUMENTS.SYS_ACL);
-        selectedFields.add(DOCUMENTS.SYS_SOURCE_ID);
-        selectedFields.add(DOCUMENTS.SYS_SOURCE_PACKAGE);
-        selectedFields.add(DOCUMENTS.SYS_VERSION);
-        selectedFields.add(DOCUMENTS.VER_ISLAST);
-        selectedFields.add(DOCUMENTS.VER_PARENT_UUID);
-        selectedFields.add(DOCUMENTS.VER_SERIES_UUID);
-        selectedFields.add(DOCUMENTS.VER_COMMENT);
-    }
 }

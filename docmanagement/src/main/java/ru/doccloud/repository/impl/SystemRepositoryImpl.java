@@ -19,7 +19,6 @@ import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.SelectField;
-import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import ru.doccloud.common.exception.DocumentNotFoundException;
 import ru.doccloud.common.exception.TypeNotFoundException;
@@ -422,7 +419,7 @@ public class SystemRepositoryImpl extends AbstractJooqRepository implements Syst
                     .uuid(queryResult.getValue(SYSTEM.SYS_UUID))
                     .symbolicName(queryResult.getValue(SYSTEM.SYS_SYMBOLIC_NAME))
                     .parent(queryResult.getValue(SYSTEM.SYS_PARENT_UUID))
-                    .data(JsonNodeParser.buildObjectNode(queryResult, fields))
+                    .data(JsonNodeParser.buildObjectNodeFromRecord(queryResult, fields))
                     .build();
         }
 

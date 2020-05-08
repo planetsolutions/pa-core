@@ -31,7 +31,7 @@ public class JsonBuildObjectNodeTest {
 
         Record record = result.get(0);
 
-        ObjectNode aclNode = JsonNodeParser.buildObjectNode(record, "sys_acl");
+        ObjectNode aclNode = JsonNodeParser.buildObjectNodeFromRecord(record, "sys_acl");
 
         assertNotNull(aclNode);
 
@@ -49,7 +49,7 @@ public class JsonBuildObjectNodeTest {
 
         String[] fields = new String[]{"all"};
 
-        ObjectNode dataNode = JsonNodeParser.buildObjectNode(record, "data");
+        ObjectNode dataNode = JsonNodeParser.buildObjectNodeFromRecord(record, "data");
 
 
         assertNotNull(dataNode);
