@@ -84,8 +84,8 @@ public abstract class CmisTest extends CommonTest {
     }
 
     // TODO: 08.05.2020 define abstract method and override it for cmis and for rest of functionality
-    void assertCriteria(ObjectData myObject, String expectedObjId, String expectedParentId,
-                        String expectedName, String expectedPath, String expectedType, String expectedDesc ){
+    public void assertCriteria(ObjectData myObject, String expectedObjId, String expectedParentId,
+                               String expectedName, String expectedPath, String expectedType, String expectedDesc){
         assertNotNull(myObject);
         assertEquals(expectedObjId, myObject.getId());
 

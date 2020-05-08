@@ -1,6 +1,7 @@
 package ru.doccloud.common;
 
 
+import org.apache.chemistry.opencmis.commons.data.ObjectData;
 import org.apache.http.client.HttpClient;
 
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -49,6 +50,11 @@ public abstract class CommonTest extends DockerComposeTest {
         ScriptUtils.executeSqlScript(connection, new ClassPathResource("test_data.sql"));
 
     }
+
+
+    // TODO: 08.05.2020 specify acceptance criteria
+    public abstract void  assertCriteria(ObjectData myObject, String expectedObjId, String expectedParentId,
+                        String expectedName, String expectedPath, String expectedType, String expectedDesc );
 
     @After
     public void cleanUp(){

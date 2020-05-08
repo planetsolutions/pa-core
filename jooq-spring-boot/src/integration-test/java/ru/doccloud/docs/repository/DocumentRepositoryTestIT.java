@@ -1,4 +1,4 @@
-package ru.doccloud.repository;
+package ru.doccloud.docs.repository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,8 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.doccloud.common.CommonTest;
+import ru.doccloud.docs.CommonDocTest;
 import ru.doccloud.document.model.Document;
+import ru.doccloud.repository.DocumentRepository;
 import ru.doccloud.webapp.WebApplication;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import static org.junit.Assert.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(classes = {WebApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class DocumentRepositoryTestIT extends CommonTest {
+public class DocumentRepositoryTestIT extends CommonDocTest {
 
     @Autowired
     DocumentRepository<Document> documentRepository;
