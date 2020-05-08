@@ -1,27 +1,17 @@
 package ru.doccloud.docs.service;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import ru.doccloud.common.exception.DocumentNotFoundException;
 import ru.doccloud.docs.CommonDocTest;
 import ru.doccloud.service.DocumentCrudService;
 import ru.doccloud.service.document.dto.DocumentDTO;
-import ru.doccloud.webapp.WebApplication;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(SpringRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@SpringBootTest(classes = {WebApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("test")
 public class DocumentServiceTestIT extends CommonDocTest {
     @Autowired
     private DocumentCrudService<DocumentDTO> documentService;

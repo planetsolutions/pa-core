@@ -4,28 +4,11 @@ package ru.doccloud.cmis;
 import org.apache.chemistry.opencmis.commons.data.ObjectData;
 import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-import ru.doccloud.common.JWTMock;
-import ru.doccloud.webapp.WebApplication;
-
-import java.sql.SQLException;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@SpringBootTest(classes = {WebApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("test")
 public class CmisGetObjectTestIT extends CmisTest {
 
     @Test(expected = CmisRuntimeException.class)
@@ -37,12 +20,6 @@ public class CmisGetObjectTestIT extends CmisTest {
     }
 
     // TODO: 29.04.2020 add test for objectId = null, for this case cmis will automatically redirected request to getObjectByPath with root path /
-
-//    @Before
-//    public void setUp() throws SQLException {
-//        super.setUp();
-//
-//    }
 
     @Test
     public void getObjectByZeroID_thenRootDocReturned(){
