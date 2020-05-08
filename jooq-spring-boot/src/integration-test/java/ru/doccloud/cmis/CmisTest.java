@@ -83,7 +83,7 @@ public abstract class CmisTest extends CommonTest {
         return factory.createCmisBrowserBinding(parameter);
     }
 
-
+    // TODO: 08.05.2020 define abstract method and override it for cmis and for rest of functionality
     void assertCriteria(ObjectData myObject, String expectedObjId, String expectedParentId,
                         String expectedName, String expectedPath, String expectedType, String expectedDesc ){
         assertNotNull(myObject);
@@ -93,13 +93,16 @@ public abstract class CmisTest extends CommonTest {
 
         assertEquals(expectedName, myObject.getProperties().getProperties().get(objectNameKey).getValues().get(0));
 
-        assertNotNull(myObject.getProperties().getProperties().get(parentKey).getValues());
+        // parentKey and path  are always null for document type
+        if(!"cmis:document".equals(expectedType)) {
+            assertNotNull(myObject.getProperties().getProperties().get(parentKey).getValues());
 
-        assertEquals(expectedParentId, myObject.getProperties().getProperties().get(parentKey).getValues().get(0));
+            assertEquals(expectedParentId, myObject.getProperties().getProperties().get(parentKey).getValues().get(0));
 
-        assertNotNull(myObject.getProperties().getProperties().get(pathKey).getValues());
+            assertNotNull(myObject.getProperties().getProperties().get(pathKey).getValues());
 
-        assertEquals(expectedPath, myObject.getProperties().getProperties().get(pathKey).getValues().get(0));
+            assertEquals(expectedPath, myObject.getProperties().getProperties().get(pathKey).getValues().get(0));
+        }
 
         assertNotNull(myObject.getProperties().getProperties().get(objTypeKey).getValues());
 

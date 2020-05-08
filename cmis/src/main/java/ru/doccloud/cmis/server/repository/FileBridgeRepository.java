@@ -1078,23 +1078,12 @@ public class FileBridgeRepository extends AbstractFileBridgeRepository {
             return compileObjectData(context, doc, null, filterCollection, includeAllowableActions, includeACL, userReadOnly,
                     objectInfos);
 
+        List<DocumentDTO> documentDTOList = crudService.findByPath(folderPath);
+
+        LOGGER.debug("leaving getObjectByPath(): found doc {} with parent {}", documentDTOList.get(0), documentDTOList.get(1));
 
 
-//        if (!folderPath.equals("/")){
-//        	Pageable pageable = new PageRequest(0, 1);
-//            Page<DocumentDTO> dtos = crudService.findInPgBySearchTerm(folderPath.substring(folderPath.lastIndexOf("/")+1, folderPath.length()), pageable);
-//            if (dtos.iterator().hasNext()){
-//            	doc = dtos.iterator().next();
-//            }else{
-//            	throw new CmisInvalidArgumentException("Can not find document by path!");
-//            }
-//        }
-        
-        LOGGER.debug("getObjectByPath():  document {}", doc);
-        DocumentDTO parent = null;
-        if (doc.getParent()!=null)  parent = getParentDocument(doc.getParent().toString());
-        LOGGER.debug("getObjectByPath(): parent document {}", parent);
-        return compileObjectData(context, doc, parent, filterCollection, includeAllowableActions, includeACL, userReadOnly,
+        return compileObjectData(context, documentDTOList.get(0), documentDTOList.get(1), filterCollection, includeAllowableActions, includeACL, userReadOnly,
                 objectInfos);
     }
 
