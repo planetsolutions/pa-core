@@ -62,9 +62,9 @@ public abstract class CommonTest extends DockerComposeTest {
     }
 
 
-    // TODO: 08.05.2020 specify acceptance criteria
-    public abstract void  assertCriteria(ObjectData myObject, String expectedObjId, String expectedParentId,
-                        String expectedName, String expectedPath, String expectedType, String expectedDesc );
+//    // TODO: 08.05.2020 specify acceptance criteria
+//    public abstract void  assertCriteria(ObjectData myObject, String expectedObjId, String expectedParentId,
+//                        String expectedName, String expectedPath, String expectedType, String expectedDesc );
 
     @After
     public void cleanUp(){

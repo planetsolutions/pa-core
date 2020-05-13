@@ -288,6 +288,7 @@ public class RepositoryDocumentCrudService extends AbstractService  implements D
         return transformer.convert(persisted, new DocumentDTO());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<DocumentDTO> findByPath(String path)  {
         LOGGER.debug("entering findDocumentByPath(path = {})", path);

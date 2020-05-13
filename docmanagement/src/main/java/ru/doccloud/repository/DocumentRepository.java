@@ -31,7 +31,7 @@ public interface DocumentRepository<Document>  extends CommonRepository<Document
 
     public Document findBySourceID(String sourceId);
 
-    public Optional<List<ru.doccloud.document.model.Document>> findByPath(String path);
+    public Optional<List<Document>> findByPath(String path);
 
 	public List<Document> findAllVersions(UUID seriesId);
 

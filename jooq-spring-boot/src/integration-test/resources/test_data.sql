@@ -131,9 +131,9 @@ id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_
   '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
 
 INSERT INTO documents (
-id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl, sys_source_id)
   VALUES (10,'child folder of child_name_3','child_folder','folder',NULL,'b2f54af5-ca24-4724-a971-db1493802bda','9936c332-f410-487d-9903-7d25083b489a','folder',
-  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
+  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}', 'child_folder_source_id');
 
 INSERT INTO documents (
 id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
