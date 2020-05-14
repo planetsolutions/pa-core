@@ -131,13 +131,8 @@ public class TestDataProvider implements MockDataProvider {
             mock[0] = new MockResult(1, result);
         }
 
-
-
-
-
         return mock;
     }
-
 
     private JsonNode getJsonFromString(String strToJson){
         JsonNode node = null;

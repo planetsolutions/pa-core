@@ -15,7 +15,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static ru.doccloud.document.jooq.db.tables.Documents.DOCUMENTS;
 
 public class DocumentConverterTest {
