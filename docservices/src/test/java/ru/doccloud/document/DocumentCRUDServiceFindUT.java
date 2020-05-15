@@ -222,6 +222,8 @@ public class DocumentCRUDServiceFindUT {
         assertEquals(expectedList, resultList);
     }
 
+    // TODO: 5/15/20 write tests for findAll with Pageable
+
 
     private Document mockDocument(UUID id, boolean isAclRequired){
         Document.Builder documentBuilder = Document.getBuilder("title")

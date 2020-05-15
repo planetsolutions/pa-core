@@ -1,6 +1,8 @@
 package ru.doccloud.common;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.chemistry.opencmis.commons.data.ObjectData;
 import org.apache.http.client.HttpClient;
 
@@ -50,6 +52,8 @@ public abstract class CommonTest extends DockerComposeTest {
 
     public Connection connection;
 
+    private ObjectMapper mapper = new ObjectMapper();
+
     @Before
     public void setUp() throws SQLException {
         httpClient = HttpClientBuilder.create().build();
@@ -74,6 +78,19 @@ public abstract class CommonTest extends DockerComposeTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public JsonNode getJsonFromString(String strToJson){
+        JsonNode node = null;
+
+        try {
+            node = mapper.readTree(strToJson);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return node;
     }
 
 }

@@ -105,14 +105,14 @@ id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_
   '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
 
 INSERT INTO documents (
-id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl, ver_series_uuid)
   VALUES (5,'child of child 2 of child_1','child_name_1_1_1','folder',NULL,'e3fefcc7-d6f1-479f-a844-4b8546753042','5163a159-d04c-4496-8501-0ea252c9f912','folder',
-  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
+  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}', '5163a159-d04c-4496-8501-0ea252c9f912');
 
 INSERT INTO documents (
-id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)
+id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl, ver_series_uuid)
   VALUES (6,'child_name_1_1_1','child_doc_name','document',NULL,'3f4a17ca-2200-4bb0-b7fe-973bd715baf7','4c33cae4-9847-479a-859b-5ff6cb0b45b0','document',
-  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}');
+  '{"full":["all"],"read":["all"],"edit_prop":["all"],"view_prop":["all"],"modify_security":["all"],"change_content":["all"],"delete":["all"]}', '5163a159-d04c-4496-8501-0ea252c9f912');
 
 INSERT INTO documents (
 id, sys_desc, sys_title, sys_type, sys_version, sys_parent_uuid, sys_uuid,  sys_base_type, sys_acl)

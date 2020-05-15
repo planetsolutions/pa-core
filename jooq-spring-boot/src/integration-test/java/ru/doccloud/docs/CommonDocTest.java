@@ -1,8 +1,6 @@
 package ru.doccloud.docs;
 
 import ru.doccloud.common.CommonTest;
-import ru.doccloud.document.model.AbstractDocument;
-import ru.doccloud.service.document.dto.AbstractDocumentDTO;
 
 import java.lang.reflect.Field;
 import java.util.*;
