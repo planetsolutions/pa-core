@@ -52,8 +52,6 @@
         <module>docservices</module>
         <module>docmanagement</module>
         <module>doccontrollers</module>
-
-        <module>jooq-web</module>
         <module>jooq-spring-boot</module>
     </modules>
 
