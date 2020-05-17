@@ -4,7 +4,7 @@ server:
 
 pa:
   hazelcast:
-    address: hazelcast-test
+    address: localhost
     сonnectionAttemptLimit: 1
     сonnectionAttemptPeriod: 10000
     сonnectionTimeout: 1000
@@ -20,7 +20,7 @@ pa:
       allRolesMode: "authOnly"
 
       driverName: "org.postgresql.Driver"
-      connectionURL:  "jdbc:postgresql://docclouddb-test:5432/doccloud_it"
+      connectionURL:  "jdbc:postgresql://localhost:5432/doccloud_it"
       connectionName: "doccloud_it"
       connectionPassword: "doccloud_it"
     datasources:
@@ -29,7 +29,7 @@ pa:
         driverClassName: "org.postgresql.Driver"
 #        url: "jdbc:tc:postgresql:9:6:8:///doccloud?TC_DAEMON=true&TC_INITSCRIPT=file:config/src/main/resources/schema.sql"
 
-        url: "jdbc:postgresql://docclouddb-test:5432/doccloud_it"
+        url: "jdbc:postgresql://localhost:5432/doccloud_it"
         maxTotal: "100"
         maxIdle: "20"
         minIdle: "5"

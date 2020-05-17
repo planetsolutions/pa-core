@@ -7,8 +7,6 @@ services:
             - 5701:5701
         networks:
             - nw_doccloud_test
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
 #    scality-test:
 #        container_name: scality-test
 #        image: scality/s3server:latest
@@ -28,8 +26,6 @@ services:
             - 8080:8080
         networks:
             - nw_doccloud_test
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
     #
 #    elasticsearch-test:
 #        image: docker.elastic.co/elasticsearch/elasticsearch:6.7.1
