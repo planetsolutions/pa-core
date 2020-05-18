@@ -45,11 +45,11 @@ public abstract class CommonTest extends DockerComposeTest {
     public static final String DEFAULT_PASS = "boot";
 
     @Autowired
-    public DataSource dataSource;
+    private DataSource dataSource;
 
-    public Connection connection;
+    private Connection connection;
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Before
     public void setUp() throws SQLException {
