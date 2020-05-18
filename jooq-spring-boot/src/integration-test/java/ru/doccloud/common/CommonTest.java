@@ -41,9 +41,6 @@ public abstract class CommonTest extends DockerComposeTest {
     @LocalServerPort
     public  int port;
 
-    public  HttpClient httpClient;
-    public  String jwtToken;
-
     public static final String DEFAULT_USER = "boot";
     public static final String DEFAULT_PASS = "boot";
 
@@ -56,8 +53,7 @@ public abstract class CommonTest extends DockerComposeTest {
 
     @Before
     public void setUp() throws SQLException {
-        httpClient = HttpClientBuilder.create().build();
-        jwtToken = JWTMock.getJWT(DEFAULT_USER);
+
         connection = dataSource.getConnection();
 
         ScriptUtils.executeSqlScript(connection, new ClassPathResource("clean_data.sql"));

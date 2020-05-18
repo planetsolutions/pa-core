@@ -7,6 +7,7 @@ import org.apache.chemistry.opencmis.commons.data.ObjectData;
 import org.apache.chemistry.opencmis.commons.spi.CmisBinding;
 import org.junit.Before;
 import ru.doccloud.common.CommonTest;
+import ru.doccloud.common.JWTMock;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -48,27 +49,24 @@ public abstract class CmisTest extends CommonTest {
     @Before
     public void setUp() throws SQLException {
         super.setUp();
-         provider = getClientBindings(createURLWithPort("/jooq/browser", port), DEFAULT_USER, DEFAULT_PASS, jwtToken);
+        String jwtToken = JWTMock.getJWT(DEFAULT_USER);
+         provider = getClientBindings(createURLWithPort(port), jwtToken);
     }
 
-    static CmisBinding getClientBindings(String url, String user, String pwd, String token) {
-        return createBrowserBinding(url, user, pwd, token);
+    private static CmisBinding getClientBindings(String url, String token) {
+        return createBrowserBinding(url, token);
     }
 
-    static void fillLoginParams(Map<String, String> parameters, String user, String password) {
-        if (user != null && user.length() > 0) {
-            parameters.put(SessionParameter.USER, user);
-        }
-        if (user != null && user.length() > 0) {
-            parameters.put(SessionParameter.PASSWORD, password);
-        }
+    private static void fillLoginParams(Map<String, String> parameters) {
+        parameters.put(SessionParameter.USER, CommonTest.DEFAULT_USER);
+        parameters.put(SessionParameter.PASSWORD, CommonTest.DEFAULT_PASS);
     }
 
-    static CmisBinding createBrowserBinding(String url, String user, String password, String token) {
+    private static CmisBinding createBrowserBinding(String url, String token) {
 
         // gather parameters
         Map<String, String> parameters = new HashMap<>();
-        fillLoginParams(parameters, user, password);
+        fillLoginParams(parameters);
 
         // get factory and create binding
         CmisBindingFactory factory = CmisBindingFactory.newInstance();
@@ -83,7 +81,6 @@ public abstract class CmisTest extends CommonTest {
         return factory.createCmisBrowserBinding(parameter);
     }
 
-    // TODO: 08.05.2020 define abstract method and override it for cmis and for rest of functionality
     public void assertCriteria(ObjectData myObject, String expectedObjId, String expectedParentId,
                                String expectedName, String expectedPath, String expectedType, String expectedDesc){
         assertNotNull(myObject);
@@ -113,7 +110,7 @@ public abstract class CmisTest extends CommonTest {
         assertEquals(expectedDesc, myObject.getProperties().getProperties().get(descriptionKey).getValues().get(0));
     }
 
-     static String createURLWithPort(String uri, int port) {
-        return "http://localhost:" + port + uri;
+     private static String createURLWithPort(int port) {
+        return "http://localhost:" + port + "/jooq/browser";
     }
 }

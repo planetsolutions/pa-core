@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -80,7 +81,7 @@ abstract class BridgeRepository {
 
         root = new File(rootPath);
 
-        LOGGER.trace("BridgeRepository(): root {} is directory", root, root.isDirectory());
+        LOGGER.trace("BridgeRepository(): root {} is directory ? {}", root, root.isDirectory());
 
         if (!root.isDirectory()) {
             throw new IllegalArgumentException("Root is not a directory!");
@@ -124,7 +125,7 @@ abstract class BridgeRepository {
             return root;
         }
 
-        return new File(root, (new String(Base64.decode(id.getBytes("US-ASCII")), "UTF-8")).replace('/',
+        return new File(root, (new String(Base64.decode(id.getBytes(StandardCharsets.US_ASCII)), StandardCharsets.UTF_8)).replace('/',
                 File.separatorChar));
     }
 
@@ -639,7 +640,7 @@ abstract class BridgeRepository {
 
         String path = getRepositoryPath(file);
 
-        return Base64.encodeBytes(path.getBytes("UTF-8"));
+        return Base64.encodeBytes(path.getBytes(StandardCharsets.UTF_8));
     }
 
     private String getRepositoryPath(final File file) {
