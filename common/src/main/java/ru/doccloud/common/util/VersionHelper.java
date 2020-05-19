@@ -13,10 +13,12 @@ import java.math.RoundingMode;
 public class VersionHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionHelper.class);
     private static final String START_MINOR_VERSION_VALUE = "0.1";
+    private static final String START_MAJOR_VERSION_VALUE = "1.0";
     private static final double MINOR_VERSION_LAG = 0.1;
-    public static String generateMinorDocVersion(final String oldMinorVersion){
+
+    public static String generateMinorDocVersion(final String oldMinorVersion) {
         LOGGER.debug("old minor version {}", oldMinorVersion);
-        if(StringUtils.isBlank(oldMinorVersion))
+        if (StringUtils.isBlank(oldMinorVersion))
             return START_MINOR_VERSION_VALUE;
 
         final Double newMinorVersionNum = round(Double.parseDouble(oldMinorVersion) + MINOR_VERSION_LAG, 2);
@@ -31,5 +33,13 @@ public class VersionHelper {
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    public static String generateMajorDocVersion(String oldVersion) {
+        if (oldVersion == null || oldVersion.isEmpty()) {
+            return START_MAJOR_VERSION_VALUE;
+        }
+        String versionBase = oldVersion.split("\\.").length == 2 ? oldVersion.split("\\.")[0] : oldVersion;
+        return (Integer.parseInt(versionBase) + 1) + ".0";
     }
 }

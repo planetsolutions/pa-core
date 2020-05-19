@@ -458,6 +458,9 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
         if (documentEntry.getData() != null) s.set(DOCUMENTS.DATA, documentEntry.getData());
         if (documentEntry.getType() != null) s.set(DOCUMENTS.SYS_TYPE, documentEntry.getType());
         if (documentEntry.getParent() != null) s.set(DOCUMENTS.SYS_PARENT_UUID, documentEntry.getParent());
+        if (documentEntry.isLastVersion() != null) s.set(DOCUMENTS.VER_ISLAST, documentEntry.isLastVersion());
+        if (documentEntry.getVersionSeries() != null) s.set(DOCUMENTS.VER_SERIES_UUID, documentEntry.getVersionSeries());
+        if (documentEntry.getVersionParent() != null) s.set(DOCUMENTS.VER_PARENT_UUID, documentEntry.getVersionParent());
 
         int updatedRecordCount = s.where(DOCUMENTS.SYS_UUID.equal(documentEntry.getId())).execute();
 
