@@ -25,6 +25,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+      
+      - name: Prepare folders
+        run: mkdir -p /opt/doccloud/data
 
       - name: Build and deploy Maven artifacts
         run: mvn -B deploy --file pom.xml

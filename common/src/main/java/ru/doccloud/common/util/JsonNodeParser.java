@@ -43,53 +43,8 @@ public class JsonNodeParser {
         LOGGER.debug("leaving getValueJsonNode(): repository for save file {}", rootFolder);
         return rootFolder;
     }
-    public static ObjectNode buildObjectNode(Record queryResult, String field){
-        ObjectNode data = JsonNodeFactory.instance.objectNode();
-        ObjectMapper mapper = new ObjectMapper();
-		try {
-			LOGGER.debug("field node - {}",queryResult.getValue(field).toString());
-			if (queryResult.getValue(field)!=null && queryResult.getValue(field).toString()!="null"){
-				JsonNode json = mapper.readTree(queryResult.getValue(field).toString());
-				if (!json.isNull() && json.getClass()!=NullNode.class){
-					data=(ObjectNode) json;
-				}
-			}
-		} catch (IllegalArgumentException | IOException e) {
-			LOGGER.error("getValueJsonNode(): exception {}", e.getMessage());
-		}
 
-        return data;
-    }
-    public static ObjectNode buildObjectNode(Record queryResult, String[] fields){
-        ObjectNode data = JsonNodeFactory.instance.objectNode();
-        ObjectMapper mapper = new ObjectMapper();
-        if (fields!=null){
-        	if (fields[0].equals("all")){
-        		try {
-        			if (queryResult.getValue("data")!=null && queryResult.getValue("data").toString()!="null"){
-        				LOGGER.debug("Data node - {}",queryResult.getValue("data").toString());
-        				JsonNode json = mapper.readTree(queryResult.getValue("data").toString());
-        				if (!json.isNull() && json.getClass()!=NullNode.class){
-        					data=(ObjectNode) json;
-        				}
-        			}
-				} catch (IllegalArgumentException | IOException e) {
-					LOGGER.error("getValueJsonNode(): exception {}", e.getMessage());
-				}
-			}else{
-	            for (String field : fields) {
-	                if (queryResult.getValue(field)!=null){
-	                    try {
-	                        data.put(field,mapper.readTree(queryResult.getValue(field).toString()));
-	                    } catch (IllegalArgumentException | IOException e) {
-							LOGGER.error("getValueJsonNode(): exception {}", e.getMessage());
-	                    }
-	                }
-	            }
-        	}
-        }
-        return data;
-    }
+
 
     public static JsonNode mergeJson(JsonNode mainNode, JsonNode updateNode) {
 

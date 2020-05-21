@@ -1,6 +1,7 @@
 package ru.doccloud.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -29,6 +30,8 @@ public interface DocumentRepository<Document>  extends CommonRepository<Document
     public Page<Document> findAllByLinkHead(UUID head, String type, Pageable pageable);
 
     public Document findBySourceID(String sourceId);
+
+    public Optional<List<Document>> findByPath(String path);
 
 	public List<Document> findAllVersions(UUID seriesId);
 

@@ -19,7 +19,6 @@ import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.SelectField;
-import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import ru.doccloud.common.exception.DocumentNotFoundException;
 import ru.doccloud.common.exception.TypeNotFoundException;
@@ -41,6 +38,7 @@ import ru.doccloud.document.jooq.db.tables.records.SystemRecord;
 import ru.doccloud.document.model.QueryParam;
 import ru.doccloud.document.model.SystemDocument;
 import ru.doccloud.repository.SystemRepository;
+import ru.doccloud.repository.util.SystemConverter;
 
 
 /**
@@ -407,68 +405,6 @@ public class SystemRepositoryImpl extends AbstractJooqRepository implements Syst
         return resultCount;
     }
 
-    private static class SystemConverter {
-        private static SystemDocument convertQueryResultToModelObject(Record queryResult, String[] fields) {
-            return  SystemDocument.getBuilder(queryResult.getValue(SYSTEM.SYS_TITLE))
-                    .description(queryResult.getValue(SYSTEM.SYS_DESC))
-                    .type(queryResult.getValue(SYSTEM.SYS_TYPE))
-                    .id(queryResult.getValue(SYSTEM.SYS_UUID))
-                    .creationTime(queryResult.getValue(SYSTEM.SYS_DATE_CR))
-                    .modificationTime(queryResult.getValue(SYSTEM.SYS_DATE_MOD))
-                    .author(queryResult.getValue(SYSTEM.SYS_AUTHOR))
-                    .modifier(queryResult.getValue(SYSTEM.SYS_MODIFIER))
-                    .filePath(queryResult.getValue(SYSTEM.SYS_FILE_PATH))
-                    .fileName(queryResult.getValue(SYSTEM.SYS_FILE_NAME))
-                    .uuid(queryResult.getValue(SYSTEM.SYS_UUID))
-                    .symbolicName(queryResult.getValue(SYSTEM.SYS_SYMBOLIC_NAME))
-                    .parent(queryResult.getValue(SYSTEM.SYS_PARENT_UUID))
-                    .data(JsonNodeParser.buildObjectNode(queryResult, fields))
-                    .build();
-        }
-
-
-        private static SystemDocument convertQueryResultToModelObject(SystemRecord queryResult) {
-            return SystemDocument.getBuilder(queryResult.getSysTitle())
-                    .creationTime(queryResult.getSysDateCr())
-                    .description(queryResult.getSysDesc())
-                    .type(queryResult.getSysType())
-                    .data(queryResult.getData())
-                    .id(queryResult.getSysUuid())
-                    .modificationTime(queryResult.getSysDateMod())
-                    .author(queryResult.getSysAuthor())
-                    .modifier(queryResult.getSysModifier())
-                    .filePath(queryResult.getSysFilePath())
-                    .fileMimeType(queryResult.getSysFileMimeType())
-                    .fileLength(queryResult.getSysFileLength())
-                    .fileName(queryResult.getSysFileName())
-                    .docVersion(queryResult.getSysVersion())
-                    .uuid(queryResult.getSysUuid())
-                    .symbolicName(queryResult.getSysSymbolicName())
-                    .parent(queryResult.getSysParentUuid())
-                    .build();
-        }
-
-        private static List<SystemDocument> convertQueryResultsToModelObjects(List<SystemRecord> queryResults) {
-            List<SystemDocument> documentEntries = new ArrayList<>();
-
-            for (SystemRecord queryResult : queryResults) {
-                SystemDocument documentEntry = SystemConverter.convertQueryResultToModelObject(queryResult);
-                documentEntries.add(documentEntry);
-            }
-
-            return documentEntries;
-        }
-
-        private static List<SystemDocument> convertQueryResults(List<Record> queryResults, String[] fields) {
-            List<SystemDocument> documentEntries = new ArrayList<>();
-
-            for (Record queryResult : queryResults) {
-                documentEntries.add(SystemConverter.convertQueryResultToModelObject(queryResult, fields));
-            }
-
-            return documentEntries;
-        }
-    }
 
 
 }

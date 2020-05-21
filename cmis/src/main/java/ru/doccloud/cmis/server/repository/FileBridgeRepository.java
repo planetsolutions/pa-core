@@ -668,7 +668,7 @@ public class FileBridgeRepository extends AbstractFileBridgeRepository {
         boolean userReadOnly = checkUser(context, false);
 
 
-        // check id
+        // check id // this code never works because in case of blank openId open cmis internally redirect to getObjectByPath with root path
         if (objectId == null && versionServicesId == null) {
             throw new CmisInvalidArgumentException("Object Id must be set.");
         }
@@ -1066,34 +1066,24 @@ public class FileBridgeRepository extends AbstractFileBridgeRepository {
                                       boolean includeAllowableActions, boolean includeACL, ObjectInfoHandler objectInfos) throws Exception {
         LOGGER.debug("entering getObjectByPath(folderPath={},  filter= {}, includeAllowableActions={}, includeACL={}, objectInfos={})",
                 folderPath, filter, includeAllowableActions, includeACL, objectInfos);
-        boolean userReadOnly = checkUser(context, false);
 
-        // check path
-        if (folderPath == null || folderPath.length() == 0) {
-            throw new CmisInvalidArgumentException("Invalid folder path!");
-        }
+        boolean userReadOnly = checkUser(context, false);
 
         // split filter
         Set<String> filterCollection = FileBridgeUtils.splitFilter(filter);
         LOGGER.debug("getObjectByPath(): filterCollection: {}", filterCollection);
 
         DocumentDTO doc = crudService.findById(UUID.fromString(zeroUUID), "folder", false);
+        if ("/".equals(folderPath))
+            return compileObjectData(context, doc, null, filterCollection, includeAllowableActions, includeACL, userReadOnly,
+                    objectInfos);
 
-        if (!folderPath.equals("/")){
-        	Pageable pageable = new PageRequest(0, 1);
-            Page<DocumentDTO> dtos = crudService.findInPgBySearchTerm(folderPath.substring(folderPath.lastIndexOf("/")+1, folderPath.length()), pageable);
-            if (dtos.iterator().hasNext()){
-            	doc = dtos.iterator().next();
-            }else{
-            	throw new CmisInvalidArgumentException("Can not find document by path!");
-            }
-        }
-        
-        LOGGER.debug("getObjectByPath():  document {}", doc);
-        DocumentDTO parent = null;
-        if (doc.getParent()!=null)  parent = getParentDocument(doc.getParent().toString());
-        LOGGER.debug("getObjectByPath(): parent document {}", parent);
-        return compileObjectData(context, doc, parent, filterCollection, includeAllowableActions, includeACL, userReadOnly,
+        List<DocumentDTO> documentDTOList = crudService.findByPath(folderPath);
+
+        LOGGER.debug("leaving getObjectByPath(): found doc {} with parent {}", documentDTOList.get(0), documentDTOList.get(1));
+
+
+        return compileObjectData(context, documentDTOList.get(0), documentDTOList.get(1), filterCollection, includeAllowableActions, includeACL, userReadOnly,
                 objectInfos);
     }
 
@@ -1225,14 +1215,8 @@ public class FileBridgeRepository extends AbstractFileBridgeRepository {
 
         if (found == null)
             throw new DocumentNotFoundException("Document was not found in database");
-
-
-
         return found;
     }
-
-
-
 
     private DocumentDTO getParentDocument(final String objectId) throws Exception {
         LOGGER.debug("entering getParentDocument(objectId ={})", objectId);

@@ -288,6 +288,17 @@ public class RepositoryDocumentCrudService extends AbstractService  implements D
         return transformer.convert(persisted, new DocumentDTO());
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<DocumentDTO> findByPath(String path)  {
+        LOGGER.debug("entering findDocumentByPath(path = {})", path);
+        Optional<List<Document>> optionalDocuments = repository.findByPath(path);
+
+        LOGGER.debug("leaving findDocumentByPath(): found {}", optionalDocuments);
+        return transformer.convertList(optionalDocuments.orElseThrow(()-> new DocumentNotFoundException("Document with path not found")), DocumentDTO.class);
+//        return transformer.convertList(documents, DocumentDTO.class);
+    }
+
     @Override
     public DocumentDTO delete(final UUID id, String type) throws Exception {
         LOGGER.debug("entering delete(id ={})", id);
