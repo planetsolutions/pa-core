@@ -27,5 +27,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
+    - name: Prepare folders
+      run: mkdir -p /opt/doccloud/data
+
     - name: Build and verify
       run: mvn -B verify --file pom.xml
