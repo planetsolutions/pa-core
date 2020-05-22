@@ -262,7 +262,8 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
 
 
     @Override
-    @Cacheable(value = "docsByType", cacheManager = "springCM")
+//    Temporary disabled because, under current configuration, cache does not work as expected
+//    @Cacheable(value = "docsByType", cacheManager = "springCM")
     @NoDefDSConnection
     public Page<Document> findAllByType(String type, String[] fields, Pageable pageable, String query, JsonNode typeData) {
         LOGGER.trace("entering findAllByType(type={}, fields={}, pageable={}, query={})", type, fields, pageable, query);
@@ -778,7 +779,8 @@ public class JOOQDocumentRepository extends AbstractJooqRepository implements Do
 	}
 	
 	@Override
-	@Cacheable(value = "countByType", cacheManager = "springCM")
+//    Temporary disabled because, under current configuration, cache does not work as expected
+//	@Cacheable(value = "countByType", cacheManager = "springCM")
     @NoDefDSConnection
 	public Long countAllByType(String type, String[] fields, Pageable pageable, String query, JsonNode typeData) {
 		Map<String, String> propTypes = getPropertiesType(typeData);

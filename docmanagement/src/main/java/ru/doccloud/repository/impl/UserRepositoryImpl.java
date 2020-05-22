@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.SelectWhereStep;
@@ -53,30 +54,30 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<Group> getGroups(String query){ 
     	Condition cond = null;
-    	if (query!=null && query!="") cond = GROUPS.TITLE.startsWith(query);
+        if (!StringUtils.isBlank(query)) cond = GROUPS.TITLE.startsWith(query);
         
     	SelectWhereStep<GroupsRecord> s = jooq.selectFrom(GROUPS);
     	if (cond!=null) s.where(cond);
     	final List<GroupsRecord> queryResult = s.fetchInto(GroupsRecord.class);
-    	final List<Group> groups = convertGroupsQueryResultToModelObj(queryResult);
-    	return groups;
+        return convertGroupsQueryResultToModelObj(queryResult);
 	}
     
     @Transactional(readOnly = true)
     @Override
-    public List<User> getUsers(String query){ 
+    public List<User> getUsers(String query){
     	Condition cond = null;
-    	if (query!=null && query!="") cond = USERS.USERNAME.startsWith(query).or(USERS.FULLNAME.startsWith(query));
+    	if (!StringUtils.isBlank(query)) cond = USERS.USERNAME.startsWith(query).or(USERS.FULLNAME.startsWith(query));
         
     	SelectWhereStep<UsersRecord> s = jooq.selectFrom(USERS);
     	if (cond!=null) s.where(cond);
     	final List<UsersRecord> queryResult = s.fetchInto(UsersRecord.class);
-    	final List<User> users = convertUsersQueryResultToModelObj(queryResult);
-    	return users;
+
+        return convertUsersQueryResultToModelObj(queryResult);
 	}
     @Transactional(readOnly = true)
     @Override
-    @Cacheable(value = "userByLogin", cacheManager = "springCM")
+//    Temporary disabled because, under current configuration, cache does not work as expected
+//    @Cacheable(value = "userByLogin", cacheManager = "springCM")
     public User getUser(final String login) {
         LOGGER.trace("entering getUser(login = {})", login);
 
@@ -146,8 +147,7 @@ public class UserRepositoryImpl implements UserRepository {
                         group.getId(),group.getTitle())
                 .returning()
                 .fetchOne();
-        Group returned = convertGroupToModelObject(persisted);
-		return returned;
+        return convertGroupToModelObject(persisted);
 	}
 
     private static User convertQueryResultToModelObject(UsersRecord queryResult,  List<UserRolesRecord> userRolesQueryResult) {
