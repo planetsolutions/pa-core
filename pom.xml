@@ -36,7 +36,7 @@
         <jjwt.version>0.7.0</jjwt.version>
         <hazelcast.version>3.8.1</hazelcast.version>
         <tc.postgresql.version>1.13.0</tc.postgresql.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <modules>
