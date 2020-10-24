@@ -8,7 +8,7 @@ import ru.doccloud.common.jwt.JWTTokenGenerator;
 @Configuration
 @ConfigurationProperties(prefix = "security.jwt")
 public class JwtSettings {
-//
+    //
     public long getAccessTokenExpirationTime() {
         return JWTTokenGenerator.INSTANCE.getAccessTokenExpirationTime();
     }
@@ -18,7 +18,7 @@ public class JwtSettings {
     }
 
     public long getRefreshTokenExpirationTime() {
-        return  JWTTokenGenerator.INSTANCE.getRefreshTokenExpirationTime();
+        return JWTTokenGenerator.INSTANCE.getRefreshTokenExpirationTime();
     }
 
     public void setRefreshTokenExpirationTime(long refreshTokenExpirationTime) {
@@ -29,8 +29,24 @@ public class JwtSettings {
         return JWTTokenGenerator.INSTANCE.getSigningKey();
     }
 
-    public void setSigningKey(String signingKey){
+    public void setSigningKey(String signingKey) {
         JWTTokenGenerator.INSTANCE.setSigningKey(signingKey);
+    }
+
+    public void setAllowCookie(boolean allowCookie) {
+        JWTTokenGenerator.INSTANCE.setUseJwtCookie(allowCookie);
+    }
+
+    public boolean getAllowCookie() {
+        return JWTTokenGenerator.INSTANCE.isUseJwtCookie();
+    }
+
+    public void setAllowRequestParam(boolean allowRequestParam) {
+        JWTTokenGenerator.INSTANCE.setUseRequestParam(allowRequestParam);
+    }
+
+    public boolean getAllowRequestParam() {
+        return JWTTokenGenerator.INSTANCE.isUseRequestParam();
     }
 
 }
