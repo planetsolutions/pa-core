@@ -28,6 +28,8 @@ security:
   jwt:
     accessTokenExpirationTime: 864_000_00
     refreshTokenExpirationTime: 864_000_000
+    allowCookie: true
+    allowRequestParam: false
     signingKey: 74a0d974-cde7-4c86-b97a-596f71bc4ea7
 #  openldap:
 #    ldaps:

@@ -7,17 +7,19 @@ public enum JWTTokenGenerator {
 
 //    private String secretKey;
 
-    private long accessTokenExpirationTime ; // 1 day
-
-    private long refreshTokenExpirationTime; // 10 days
-
-    private String signingKey;
-
     private final String tokenPrefix = "Bearer";
     private final String jwtHeaderAuth = "cmisJwtAuthorization";
     private final String standardHeaderAuth = "Authorization";
+    private final String jwtCookieName = "PA_JWT_TOKEN";
+    private final String jwtRequestParam = "jwtToken";
 
-    private final String jwtRefreshHeader="refresh_token";
+    private long accessTokenExpirationTime; // 1 day
+    private long refreshTokenExpirationTime; // 10 days
+    private String signingKey;
+    private boolean useJwtCookie = true;
+    private boolean useRequestParam = false;
+
+    private final String jwtRefreshHeader = "refresh_token";
 
 //    public void generateRandomSecretKey(){
 //        secretKey = UUID.randomUUID().toString();
@@ -63,7 +65,31 @@ public enum JWTTokenGenerator {
         return signingKey;
     }
 
+    public String getJwtCookieName() {
+        return jwtCookieName;
+    }
+
     public void setSigningKey(String signingKey) {
         this.signingKey = signingKey;
+    }
+
+    public void setUseJwtCookie(boolean useJwtCookie) {
+        this.useJwtCookie = useJwtCookie;
+    }
+
+    public boolean isUseJwtCookie() {
+        return useJwtCookie;
+    }
+
+    public String getJwtRequestParam() {
+        return jwtRequestParam;
+    }
+
+    public boolean isUseRequestParam() {
+        return useRequestParam;
+    }
+
+    public void setUseRequestParam(boolean useRequestParam) {
+        this.useRequestParam = useRequestParam;
     }
 }
