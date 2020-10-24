@@ -51,6 +51,7 @@ class TokenAuthenticationService {
             if (JWTTokenGenerator.INSTANCE.isUseJwtCookie()) {
                 Cookie jwtCookie = new Cookie(JWTTokenGenerator.INSTANCE.getJwtCookieName(), accessToken);
                 jwtCookie.setHttpOnly(true);
+                jwtCookie.setMaxAge((int) JWTTokenGenerator.INSTANCE.getAccessTokenExpirationTime());
                 res.addCookie(jwtCookie);
             }
 
