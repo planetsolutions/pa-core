@@ -5,7 +5,7 @@ on:
     types: [created]
 
 env:
-  IMAGE_NAME: pa-core-app
+  IMAGE_NAME: pa-core
 
 jobs:
   publish:
@@ -34,16 +34,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: Build Docker image
         run: docker build . --tag $IMAGE_NAME
 
       - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin
 
       - name: Push image
         run: |
-                IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+                # https://hub.docker.com/repository/docker/planetsolutions/pa-core
+                IMAGE_ID=planetsolutions/$IMAGE_NAME
 
                 # Strip git ref prefix from version
                 VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
@@ -51,10 +51,9 @@ jobs:
                 # Strip "v" prefix from tag name
                 [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
-                # Use Docker `latest` tag convention
-                [ "$VERSION" == "master" ] && VERSION=latest
                 echo IMAGE_ID=$IMAGE_ID
                 echo VERSION=$VERSION
 
                 docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+                docker tag $IMAGE_NAME $IMAGE_ID:latest
                 docker push $IMAGE_ID:$VERSION
