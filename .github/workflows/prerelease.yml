@@ -1,8 +1,8 @@
-name: publish release
+name: publish test
 
 on:
   release:
-    types: [ released ]
+    types: [ prereleased ]
 
 env:
   IMAGE_NAME: pa-core
@@ -55,8 +55,8 @@ jobs:
                 echo VERSION=$VERSION
 
                 docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-                docker tag $IMAGE_NAME $IMAGE_ID:release
+                docker tag $IMAGE_NAME $IMAGE_ID:test
                 docker tag $IMAGE_NAME $IMAGE_ID:latest
                 docker push $IMAGE_ID:$VERSION
-                docker push $IMAGE_ID:release
+                docker push $IMAGE_ID:test
                 docker push $IMAGE_ID:latest
