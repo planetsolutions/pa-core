@@ -86,7 +86,7 @@ public class RepositoryDocumentCrudService extends AbstractService  implements D
         if (dto.getType().startsWith("abstract_")){
         	throw new Exception("Document can not be created based on abstract type.");
         }
-        repository.setUser(user);
+        //repository.setUser(user);
         dto.setAuthor(user);
         
         List<String> readersArr = new ArrayList<>();
