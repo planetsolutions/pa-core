@@ -30,7 +30,7 @@ jobs:
         run: mkdir -p /opt/doccloud/data
 
       - name: Build and deploy Maven artifacts
-        run: mvn -B deploy --file pom.xml
+        run: mvn -B deploy -DskipTests --file pom.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
