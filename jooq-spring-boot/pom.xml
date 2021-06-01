@@ -8,7 +8,7 @@
     <properties>
         <main.basedir>${project.parent.basedir}</main.basedir>
         <phase.prop>none</phase.prop>
-        <skip.integration.tests>false</skip.integration.tests>
+        <skip.integration.tests>true</skip.integration.tests>
         <skip.unit.tests>true</skip.unit.tests>
     </properties>
 
