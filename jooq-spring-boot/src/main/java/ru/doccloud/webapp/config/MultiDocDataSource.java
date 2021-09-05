@@ -12,7 +12,7 @@ public class MultiDocDataSource extends AbstractRoutingDataSource {
 
         Object currentDs =  DocDsContext.getCurrentDS();
 
-        LOGGER.info("determineCurrentLookupKey() current DS {}", currentDs);
+        LOGGER.debug("determineCurrentLookupKey() current DS {}", currentDs);
 
         return currentDs;
     }

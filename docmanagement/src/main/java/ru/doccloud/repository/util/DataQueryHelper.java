@@ -236,6 +236,12 @@ public class DataQueryHelper {
                         case "nc":
                             cond = cond.and(getFilterField(param, table, field,true).notLikeIgnoreCase("%"+param.getValue()+"%"));
                             break;
+                        case "nu":
+                            cond = cond.and(getFilterField(param, table, field,true).isNull());
+                            break;
+                        case "nn":
+                            cond = cond.and(getFilterField(param, table, field,true).isNotNull());
+                            break;
                     }
                 }
             }
